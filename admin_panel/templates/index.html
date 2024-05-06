@@ -10,16 +10,17 @@
       rel="stylesheet"
     />
     <!-- My CSS -->
-    <link rel="stylesheet" href="style.css" />
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
 
-    <title>AdminHub</title>
+    <title>EventSphere</title>
   </head>
   <body>
     <!-- SIDEBAR -->
     <section id="sidebar">
       <a href="#" class="brand">
         <i class="bx bxs-smile"></i>
-        <span class="text">AdminHub</span>
+        <span class="text">EventSphere</span>
       </a>
       <ul class="side-menu top">
         <li class="active">
@@ -31,25 +32,25 @@
         <li>
           <a href="#">
             <i class="bx bxs-shopping-bag-alt"></i>
-            <span class="text">My Store</span>
+            <span class="text">Event Categories</span>
           </a>
         </li>
         <li>
           <a href="#">
             <i class="bx bxs-doughnut-chart"></i>
-            <span class="text">Analytics</span>
+            <span class="text">Events</span>
           </a>
         </li>
         <li>
           <a href="#">
             <i class="bx bxs-message-dots"></i>
-            <span class="text">Message</span>
+            <span class="text">Users</span>
           </a>
         </li>
         <li>
           <a href="#">
             <i class="bx bxs-group"></i>
-            <span class="text">Team</span>
+            <span class="text">Event Organizers</span>
           </a>
         </li>
       </ul>
@@ -122,21 +123,21 @@
             <i class="bx bxs-calendar-check"></i>
             <span class="text">
               <h3>1020</h3>
-              <p>New Order</p>
+              <p>Event Categories</p>
             </span>
           </li>
           <li>
             <i class="bx bxs-group"></i>
             <span class="text">
               <h3>2834</h3>
-              <p>Visitors</p>
+              <p>Events</p>
             </span>
           </li>
           <li>
             <i class="bx bxs-dollar-circle"></i>
             <span class="text">
               <h3>$2543</h3>
-              <p>Total Sales</p>
+              <p>Event Organizers</p>
             </span>
           </li>
         </ul>
@@ -144,7 +145,7 @@
         <div class="table-data">
           <div class="order">
             <div class="head">
-              <h3>Recent Orders</h3>
+              <h3>Events</h3>
               <i class="bx bx-search"></i>
               <i class="bx bx-filter"></i>
             </div>
@@ -235,6 +236,6 @@
     </section>
     <!-- CONTENT -->
 
-    <script src="script.js"></script>
+    <script src="{% static 'js/admin_dashboard.js' %}"></script>
   </body>
 </html>
