@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'admin_panel',
+    'accounts',
     'debug_toolbar',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -57,6 +58,8 @@ INTERNAL_IPS = [
     "127.0.0.1",
     # ...
 ]
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 ROOT_URLCONF = 'eventsphere.urls'
 
@@ -84,8 +87,11 @@ WSGI_APPLICATION = 'eventsphere.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'eventsphere',
+        'HOST': 'localhost',
+        'USER': 'root',
+        'PASSWORD':'Rithick@2000'
     }
 }
 
