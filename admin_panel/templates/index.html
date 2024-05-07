@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventSphere</title>
 
     <!-- Boxicons -->
     <link
@@ -12,8 +13,6 @@
     <!-- My CSS -->
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
-
-    <title>EventSphere</title>
   </head>
   <body>
     <!-- SIDEBAR -->
@@ -76,21 +75,9 @@
       <!-- NAVBAR -->
       <nav>
         <i class="bx bx-menu"></i>
-        <a href="#" class="nav-link">Categories</a>
-        <form action="#">
-          <div class="form-input">
-            <input type="search" placeholder="Search..." />
-            <button type="submit" class="search-btn">
-              <i class="bx bx-search"></i>
-            </button>
-          </div>
-        </form>
+        <a href="#" class="nav-link">Admin Panel</a>
         <input type="checkbox" id="switch-mode" hidden />
         <label for="switch-mode" class="switch-mode"></label>
-        <a href="#" class="notification">
-          <i class="bx bxs-bell"></i>
-          <span class="num">8</span>
-        </a>
         <a href="#" class="profile">
           <img src="img/people.png" />
         </a>
@@ -122,28 +109,35 @@
           <li>
             <i class="bx bxs-calendar-check"></i>
             <span class="text">
-              <h3>1020</h3>
+              <h3>{{ total_categories }}</h3>
               <p>Event Categories</p>
             </span>
           </li>
           <li>
             <i class="bx bxs-group"></i>
             <span class="text">
-              <h3>2834</h3>
+              <h3>{{ total_events }}</h3>
               <p>Events</p>
             </span>
           </li>
           <li>
             <i class="bx bxs-dollar-circle"></i>
             <span class="text">
-              <h3>$2543</h3>
+              <h3>{{ total_organizers }}</h3>
               <p>Event Organizers</p>
+            </span>
+          </li>
+          <li>
+            <i class="bx bxs-check-square"></i>
+            <span class="text">
+              <h3>{{ total_completed_events }}</h3>
+              <p>Completed Events</p>
             </span>
           </li>
         </ul>
 
         <div class="table-data">
-          <div class="order">
+          <div class="events">
             <div class="head">
               <h3>Events</h3>
               <i class="bx bx-search"></i>
@@ -152,83 +146,27 @@
             <table>
               <thead>
                 <tr>
-                  <th>User</th>
-                  <th>Date Order</th>
-                  <th>Status</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Event Organizer</th>
+                  <th>Event Category</th>
+                  <th>Location</th>
+                  <th>Date</th>
                 </tr>
               </thead>
               <tbody>
+                {% for event in latest_events %}
                 <tr>
-                  <td>
-                    <img src="img/people.png" />
-                    <p>John Doe</p>
-                  </td>
-                  <td>01-10-2021</td>
-                  <td><span class="status completed">Completed</span></td>
+                  <td>{{ event.name }}</td>
+                  <td>{{ event.description }}</td>
+                  <td>{{ event.event_category }}</td>
+                  <td>{{ event.organizer }}</td>
+                  <td>{{ event.location }}</td>
+                  <td>{{ event.date_time }}</td>
                 </tr>
-                <tr>
-                  <td>
-                    <img src="img/people.png" />
-                    <p>John Doe</p>
-                  </td>
-                  <td>01-10-2021</td>
-                  <td><span class="status pending">Pending</span></td>
-                </tr>
-                <tr>
-                  <td>
-                    <img src="img/people.png" />
-                    <p>John Doe</p>
-                  </td>
-                  <td>01-10-2021</td>
-                  <td><span class="status process">Process</span></td>
-                </tr>
-                <tr>
-                  <td>
-                    <img src="img/people.png" />
-                    <p>John Doe</p>
-                  </td>
-                  <td>01-10-2021</td>
-                  <td><span class="status pending">Pending</span></td>
-                </tr>
-                <tr>
-                  <td>
-                    <img src="img/people.png" />
-                    <p>John Doe</p>
-                  </td>
-                  <td>01-10-2021</td>
-                  <td><span class="status completed">Completed</span></td>
-                </tr>
+                {% endfor %}
               </tbody>
             </table>
-          </div>
-          <div class="todo">
-            <div class="head">
-              <h3>Todos</h3>
-              <i class="bx bx-plus"></i>
-              <i class="bx bx-filter"></i>
-            </div>
-            <ul class="todo-list">
-              <li class="completed">
-                <p>Todo List</p>
-                <i class="bx bx-dots-vertical-rounded"></i>
-              </li>
-              <li class="completed">
-                <p>Todo List</p>
-                <i class="bx bx-dots-vertical-rounded"></i>
-              </li>
-              <li class="not-completed">
-                <p>Todo List</p>
-                <i class="bx bx-dots-vertical-rounded"></i>
-              </li>
-              <li class="completed">
-                <p>Todo List</p>
-                <i class="bx bx-dots-vertical-rounded"></i>
-              </li>
-              <li class="not-completed">
-                <p>Todo List</p>
-                <i class="bx bx-dots-vertical-rounded"></i>
-              </li>
-            </ul>
           </div>
         </div>
       </main>
