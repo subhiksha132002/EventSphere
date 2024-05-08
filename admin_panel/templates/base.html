@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
     <link rel="stylesheet" href="{% static 'css/events.css' %}" />
     <link rel="stylesheet" href="{% static 'css/event_categories.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/create_event.css' %}" />
   </head>
   <body>
     <!-- SIDEBAR -->
@@ -31,31 +32,33 @@
         <span class="text">EventSphere</span>
       </a>
       <ul class="side-menu top">
-        <li {% if active_page == 'dashboard' %}class="active"{% endif %}>
+        <li class="{% if active_page == 'dashboard' %}active{% endif %}">
           <a href="{% url 'admin_panel:dashboard' %}">
             <i class="bx bxs-dashboard"></i>
             <span class="text">Dashboard</span>
           </a>
         </li>
-        <li {% if active_page == 'events' %}class="active"{% endif %}>
+        <li class="{% if active_page == 'events' %}active{% endif %}">
           <a href="{% url 'admin_panel:events' %}">
             <i class="bx bxs-calendar-event"></i>
             <span class="text">Events</span>
           </a>
         </li>
-        <li {% if active_page == 'event_categories' %}class="active"{% endif %}>
+        <li class="{% if active_page == 'event_categories' %}active{% endif %}">
           <a href="{% url 'admin_panel:event_categories' %}">
             <i class="bx bxs-category"></i>
             <span class="text">Event Categories</span>
           </a>
         </li>
-        <li {% if active_page == 'users' %}class="active"{% endif %}>
+        <li class="{% if active_page == 'users' %}active{% endif %}">
           <a href="#">
             <i class="bx bxs-user"></i>
             <span class="text">Users</span>
           </a>
         </li>
-        <li {% if active_page == 'events_organizers' %}class="active"{% endif %}>
+        <li
+          class="{% if active_page == 'events_organizers' %}active{% endif %}"
+        >
           <a href="#">
             <i class="bx bxs-group"></i>
             <span class="text">Event Organizers</span>

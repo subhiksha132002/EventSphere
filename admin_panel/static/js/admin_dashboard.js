@@ -1,3 +1,18 @@
+$(document).ready(function () {
+  // Get the current URL path
+  var path = window.location.pathname;
+
+  // Check if the current page is within the Events section
+  if (path.includes("/events/")) {
+    // Add the 'active' class to the Events sidebar option
+    $(".side-menu.top li").removeClass("active"); // Remove active class from all sidebar options
+    $(".side-menu.top li").each(function () {
+      if ($(this).find("a").attr("href") === '{% url "admin_panel:events" %}') {
+        $(this).addClass("active");
+      }
+    });
+  }
+});
 const sidebarToggle = document.querySelector("#content nav .bx.bx-menu");
 const sidebar = document.getElementById("sidebar");
 const sidebarItems = document.querySelectorAll("#sidebar .side-menu.top li a");

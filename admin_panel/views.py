@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Event, EventCategory, EventOrganizer
 from accounts.models import CustomUser
+from .forms import EventForm
 from django.utils import timezone
 
 # Create your views here.
@@ -34,3 +35,18 @@ def events_view(request):
 def event_categories_view(request):
     all_categories = EventCategory.objects.all()
     return render(request, 'event_categories.html', {'active_page': 'event_categories', 'all_categories': all_categories})
+
+def create_event_view(request):
+    event_categories = EventCategory.objects.all()  # Retrieve all event categories
+    return render(request, 'create_event.html', {'event_categories': event_categories})
+
+
+def create_event(request):
+    if request.method == 'POST':
+        form = EventForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()  # Save the form data to the database
+            return redirect('event_list')  # Redirect to the event list page
+    else:
+        form = EventForm()
+    return render(request, 'create_event.html', {'form': form})
