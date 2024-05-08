@@ -1,0 +1,55 @@
+{% extends 'base.html' %} {% load static %}{% block content %}
+<main>
+  <!-- Content for event category page -->
+  <div class="table-data">
+    <div class="events">
+      <div class="head">
+        <!-- Content for event category page specific to the table header -->
+        <h3>Event Organizers</h3>
+        <a
+          href="{% url 'admin_panel:create_organizer' %}"
+          class="btn-create-organizer"
+        >
+          <i class="bx bxs-plus-circle"></i> Create Event Organizer
+        </a>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Event Organized</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for organizer, events in organizers_with_events.items %}
+          <tr>
+            <td>{{ organizer.user.first_name }}</td>
+            <td>{{ organizer.user.username }}</td>
+            <td>{{ organizer.user.email }}</td>
+            <td>
+              {% for event in events %} {{ event.name }}<br />
+              {% endfor %}
+            </td>
+            <td>
+              <!-- Edit option with tooltip -->
+              <a href="#" class="action-btn" title="Edit">
+                <i class="bx bx-edit"></i>
+              </a>
+              <!-- Delete option with tooltip -->
+              <a href="#" class="action-btn" title="Delete">
+                <i class="bx bx-trash"></i>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+{% endblock %} {% block extra_js %}
+<script src="{% static 'js/admin_dashboard.js' %}"></script>
+{% endblock %}

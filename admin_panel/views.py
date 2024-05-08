@@ -51,6 +51,7 @@ def create_category_view(request):
     return render(request, 'create_category.html', {
         'active_page': 'event_categories'  
     })
+
 logger = logging.getLogger(__name__)
 @login_required
 def create_event(request):
@@ -101,3 +102,42 @@ def create_category(request):
     else:
         form = EventForm()
     return render(request, 'create_category.html', {'form': form})
+
+
+# Function to retrieve user page
+def users_view(request):
+    # Retrieve all CustomUser objects along with related data
+    all_users = CustomUser.objects.all()
+
+    context = {
+        'active_page': 'users',  # Set active_page context variable
+        'users': all_users,  # Pass the users data to the template
+    }
+    
+    return render(request, 'attendees.html', context)
+
+def create_user_view(request):
+    return render(request, 'create_attendee.html', {
+        'active_page': 'users'  
+    })
+def event_organizers_view(request):
+    organizers = EventOrganizer.objects.all()
+
+    # Create a dictionary to store the events organized by each organizer
+    organizers_with_events = {}
+    for organizer in organizers:
+        # Get the events organized by the current organizer
+        organized_events = organizer.events_organized.all()
+        organizers_with_events[organizer] = organized_events
+
+    context = {
+        'organizers_with_events': organizers_with_events,
+        'active_page': 'event_organizers'  # Move the 'active_page' key-value pair to the context dictionary
+    }
+
+    return render(request, 'event_organizers.html', context)  # Pass the context dictionary directly
+
+def create_organizer_view(request):
+    return render(request, 'create_organizer.html', {
+        'active_page': 'event_organizers'  
+    })

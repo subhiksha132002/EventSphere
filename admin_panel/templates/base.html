@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="{% static 'css/event_categories.css' %}" />
     <link rel="stylesheet" href="{% static 'css/create_event.css' %}" />
     <link rel="stylesheet" href="{% static 'css/create_category.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/attendees.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/event_organizers.css' %}" />
   </head>
   <body>
     <!-- SIDEBAR -->
@@ -52,15 +54,13 @@
           </a>
         </li>
         <li class="{% if active_page == 'users' %}active{% endif %}">
-          <a href="#">
+          <a href="{% url 'admin_panel:users' %}">
             <i class="bx bxs-user"></i>
             <span class="text">Users</span>
           </a>
         </li>
-        <li
-          class="{% if active_page == 'events_organizers' %}active{% endif %}"
-        >
-          <a href="#">
+        <li class="{% if active_page == 'event_organizers' %}active{% endif %}">
+          <a href="{% url 'admin_panel:event_organizers' %}">
             <i class="bx bxs-group"></i>
             <span class="text">Event Organizers</span>
           </a>

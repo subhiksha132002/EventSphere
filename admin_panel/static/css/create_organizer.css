@@ -1,13 +1,14 @@
-.create-event-category {
+.create-event {
   width: 100%;
   margin: 0 auto;
   text-align: center;
 }
 
-.create-event-category h3 {
-  margin-top: 40px; /* Adjust the margin-top value as needed */
+.create-event h3 {
+  margin-top: 20px;
   margin-bottom: 20px;
 }
+
 .form-group {
   display: flex;
   align-items: center;

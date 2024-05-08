@@ -1,0 +1,59 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<main>
+  <!-- Content for events page -->
+
+  <div class="table-data">
+    <div class="events">
+      <div class="head">
+        <!-- Content for events page specific to the table header -->
+        <h3>Users</h3>
+        <a
+          href="{% url 'admin_panel:create_user' %}"
+          class="btn-create-attendee"
+        >
+          <i class="bx bxs-plus-circle"></i> Create User</a
+        >
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Date Joined</th>
+            <th>User Type</th>
+            <th>Events Registered</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        {% for user in users %}
+    <tr>
+      <td>{{ user.first_name }}</td>
+      <td>{{ user.last_name }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.date_joined|date:"Y-m-d" }}</td>
+      <td>{{ user.user_type }}</td>
+      <td>
+        <ul>
+          {% for event in user.events_attending.all %}
+          <li>{{ event.name }}</li>  <!-- Assuming Event model has a name field -->
+          {% endfor %}
+        </ul>
+      </td>
+            <td>
+              <!-- Action buttons for each event -->
+              <a href="#" class="action-btn" title="Edit">
+                <i class="bx bx-edit"></i>
+              </a>
+              <a href="#" class="action-btn" title="Delete">
+                <i class="bx bx-trash"></i>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+{% endblock %}

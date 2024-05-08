@@ -1,0 +1,26 @@
+/* CSS for the "Create Event" button */
+.btn-create-organizer {
+  background-color: #007bff; /* Blue background color */
+  color: #fff; /* White text color */
+  border: none; /* Remove border */
+  padding: 10px 20px; /* Padding */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Cursor style */
+  font-size: 16px; /* Font size */
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+/* Hover state for the button */
+.btn-create-organizer:hover {
+  background-color: #0056b3; /* Darker blue background color */
+}
+
+/* Icon style */
+.btn-create-organizer i {
+  margin-right: 5px; /* Margin to the right of the icon */
+}
+
+.action-btn i {
+  font-size: 20px;
+  color: black;
+}

@@ -1,0 +1,42 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<div class="create-event">
+  <h3>Create Event Organizer</h3>
+  <form
+    id="create-user-form"
+    method="post"
+    enctype="multipart/form-data"
+    action="{% url 'admin_panel:create_organizer' %}"
+  >
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <div class="input-field">
+        <!-- added container for input fields -->
+        <input type="text" id="name" name="name" required />
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="last_name">Username:</label>
+      <div class="input-field">
+        <textarea id="username" name="username" required></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <div class="input-field">
+        <input type="text" id="name" name="name" required />
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="event_organized">Event Organized</label>
+      <div class="input-field">
+        <input type="text" id="event_organized" name="event_organized" />
+      </div>
+    </div>
+    <button type="submit" id="submit-btn">Create</button>
+  </form>
+</div>
+
+{% endblock %} {% block extra_js %}
+<script src="{% static 'js/admin_dashboard.js' %}"></script>
+{% endblock %}
