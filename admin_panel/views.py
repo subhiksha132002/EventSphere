@@ -46,6 +46,11 @@ def create_event_view(request):
         'event_categories': event_categories,
         'active_page': 'events'  # Set the active_page context variable to 'events'
     })
+
+def create_category_view(request):
+    return render(request, 'create_category.html', {
+        'active_page': 'event_categories'  
+    })
 logger = logging.getLogger(__name__)
 @login_required
 def create_event(request):
@@ -71,3 +76,28 @@ def create_event(request):
     else:
         form = EventForm()
     return render(request, 'create_event.html', {'form': form})
+
+@login_required
+def create_category(request):
+    if request.method == 'POST':
+        form = EventForm(request.POST, request.FILES)
+        if form.is_valid():
+            logger.info(f"Form data: {form.cleaned_data}")
+            with transaction.atomic():
+                event = form.save(commit=False)
+                event.organizer = request.user
+                event.save()
+                form.save_m2m()
+            event_data = {
+                'name': event.name,
+                'description': event.description,
+                'category': str(event.event_category),
+                'location': event.location,
+                'date_time': str(event.date_time),
+            }
+            return JsonResponse(event_data, status=200)
+        else:
+            return JsonResponse({'error': 'Invalid form data'}, status=400)
+    else:
+        form = EventForm()
+    return render(request, 'create_category.html', {'form': form})

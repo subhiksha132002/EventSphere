@@ -6,7 +6,10 @@
       <div class="head">
         <!-- Content for event category page specific to the table header -->
         <h3>Event Categories</h3>
-        <a href="#" class="btn-create-category">
+        <a
+          href="{% url 'admin_panel:create_category' %}"
+          class="btn-create-category"
+        >
           <i class="bx bxs-plus-circle"></i> Create Category
         </a>
       </div>
