@@ -1,18 +1,3 @@
-$(document).ready(function () {
-  // Get the current URL path
-  var path = window.location.pathname;
-
-  // Check if the current page is within the Events section
-  if (path.includes("/events/")) {
-    // Add the 'active' class to the Events sidebar option
-    $(".side-menu.top li").removeClass("active"); // Remove active class from all sidebar options
-    $(".side-menu.top li").each(function () {
-      if ($(this).find("a").attr("href") === '{% url "admin_panel:events" %}') {
-        $(this).addClass("active");
-      }
-    });
-  }
-});
 const sidebarToggle = document.querySelector("#content nav .bx.bx-menu");
 const sidebar = document.getElementById("sidebar");
 const sidebarItems = document.querySelectorAll("#sidebar .side-menu.top li a");
@@ -31,12 +16,6 @@ sidebarItems.forEach((item) => {
   item.addEventListener("click", (e) => {
     // Prevent default link behavior
     e.preventDefault();
-
-    // Check if the sidebar is currently hidden before toggling
-    if (isSidebarHidden) {
-      sidebar.classList.toggle("hide");
-      isSidebarHidden = !isSidebarHidden;
-    }
 
     // Remove active class from all sidebar items
     sidebarItems.forEach((i) => i.parentElement.classList.remove("active"));
