@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap");
 
 * {
   margin: 0;
@@ -17,6 +18,7 @@ li {
 :root {
   --poppins: "Poppins", sans-serif;
   --lato: "Lato", sans-serif;
+  --nunito: "Nunito", sans-serif;
 
   --light: #f9f9f9;
   --blue: #3c91e6;
@@ -83,7 +85,7 @@ body {
   padding-bottom: 20px;
   box-sizing: content-box;
 }
-#sidebar .brand .bx {
+#sidebar .brand .fa-solid {
   min-width: 60px;
   display: flex;
   justify-content: center;
@@ -197,55 +199,32 @@ body {
 #content nav a {
   color: var(--dark);
 }
+#content nav .bx {
+  font-size: 25px; /* Adjust the value as needed */
+}
 #content nav .bx.bx-menu {
   cursor: pointer;
   color: var(--dark);
 }
-#content nav .nav-link {
-  font-size: 16px;
-  transition: 0.3s ease;
-}
-#content nav .nav-link:hover {
-  color: var(--blue);
-}
 
-#content nav .profile img {
-  width: 36px;
-  height: 36px;
-  object-fit: cover;
-  border-radius: 50%;
-}
-#content nav .switch-mode {
+#content nav .profile {
   display: flex;
   align-items: center;
-  min-width: 50px;
-  height: 25px;
-  border-radius: 25px;
-  background: var(--grey);
-  cursor: pointer;
-  position: relative;
+  color: var(--dark);
 }
-#content nav .switch-mode::before {
-  content: "";
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  bottom: 2px;
-  width: calc(25px - 4px);
-  background: var(--blue);
-  border-radius: 50%;
-  transition: all 0.3s ease;
+
+#content nav .profile .bx {
+  margin-right: 5px;
 }
-#content nav #switch-mode:checked + .switch-mode::before {
-  left: calc(100% - (25px - 4px) - 2px);
-}
+
 /* NAVBAR */
 
 /* MAIN */
 #content main {
   width: 100%;
   padding: 36px 24px;
-  font-family: var(--poppins);
+  font-family: var(--nunito);
+  font-weight: 800;
   max-height: calc(100vh - 56px);
   overflow-y: auto;
 }
@@ -277,18 +256,6 @@ body {
 #content main .head-title .left .breadcrumb li a.active {
   color: var(--blue);
   pointer-events: unset;
-}
-#content main .head-title .btn-download {
-  height: 36px;
-  padding: 0 16px;
-  border-radius: 36px;
-  background: var(--blue);
-  color: var(--light);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  grid-gap: 10px;
-  font-weight: 500;
 }
 
 #content main .box-info {
@@ -335,6 +302,13 @@ body {
   font-weight: 600;
   color: var(--dark);
 }
+
+#content main .box-info li .text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
 #content main .box-info li .text p {
   color: var(--dark);
 }
@@ -362,7 +336,7 @@ body {
 #content main .table-data .head h3 {
   margin-right: auto;
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 800;
 }
 #content main .table-data .head .bx {
   cursor: pointer;
@@ -372,49 +346,62 @@ body {
   flex-grow: 1;
   flex-basis: 500px;
 }
-#content main .table-data .events table {
+#content main .table-data table {
   width: 100%;
   border-collapse: collapse;
 }
-#content main .table-data .events table th {
+#content main .table-data table th {
   padding-bottom: 12px;
-  font-size: 13px;
-  text-align: left;
+  font-size: 15px;
+  text-align: center;
   border-bottom: 1px solid var(--grey);
+  font-family: "nunito"; /* Specify your desired font */
+  font-weight: 600; /* Adjust font weight if needed */
+  color: var(--dark);
 }
-#content main .table-data .events table td {
+#content main .table-data table td {
   padding: 16px 0;
+  font-size: 16px; /* Decrease font size */
+  font-weight: 500;
+  text-align: center; /* Center-align column content */
 }
-#content main .table-data .events table tr td:first-child {
+#content main .table-data table tr td:first-child {
   display: flex;
   align-items: center;
   grid-gap: 12px;
   padding-left: 6px;
 }
-#content main .table-data .events table td img {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
+#content main .table-data .events table th {
+  padding: 12px 20px; /* Adjust padding as needed */
+  font-size: 16px; /* Adjust font size as needed */
+  text-align: center; /* Center-align table headings */
 }
-#content main .table-data .events table tbody tr:hover {
+#content main .table-data table tbody tr:hover {
   background: var(--grey);
 }
-#content main .table-data .events table tr td .status {
-  font-size: 10px;
-  padding: 6px 16px;
-  color: var(--light);
-  border-radius: 20px;
-  font-weight: 700;
+
+/* Search input */
+#search-input,
+#filter-select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-right: 10px;
 }
-#content main .table-data .events table tr td .status.completed {
-  background: var(--blue);
+
+/* Clear filter button */
+#clear-filter {
+  padding: 8px 12px;
+  background-color: #3c91e6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
-#content main .table-data .events table tr td .status.process {
-  background: var(--yellow);
-}
-#content main .table-data .events table tr td .status.pending {
-  background: var(--orange);
+
+#clear-filter:hover {
+  background-color: #3c91e6;
 }
 
 /* MAIN */
@@ -436,35 +423,6 @@ body {
 }
 
 @media screen and (max-width: 576px) {
-  #content nav form .form-input input {
-    display: none;
-  }
-
-  #content nav form .form-input button {
-    width: auto;
-    height: auto;
-    background: transparent;
-    border-radius: none;
-    color: var(--dark);
-  }
-
-  #content nav form.show .form-input input {
-    display: block;
-    width: 100%;
-  }
-  #content nav form.show .form-input button {
-    width: 36px;
-    height: 100%;
-    border-radius: 0 36px 36px 0;
-    color: var(--light);
-    background: var(--red);
-  }
-
-  #content nav form.show ~ .notification,
-  #content nav form.show ~ .profile {
-    display: none;
-  }
-
   #content main .box-info {
     grid-template-columns: 1fr;
   }

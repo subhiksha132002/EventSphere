@@ -1,64 +1,49 @@
-const allSideMenu = document.querySelectorAll("#sidebar .side-menu.top li a");
+const sidebarToggle = document.querySelector("#content nav .bx.bx-menu");
+const sidebar = document.getElementById("sidebar");
+const sidebarItems = document.querySelectorAll("#sidebar .side-menu.top li a");
 
-allSideMenu.forEach((item) => {
-  const li = item.parentElement;
+// Flag to track sidebar visibility
+let isSidebarHidden = false;
 
-  item.addEventListener("click", function () {
-    allSideMenu.forEach((i) => {
-      i.parentElement.classList.remove("active");
-    });
-    li.classList.add("active");
+// Toggle sidebar on menu bar click
+sidebarToggle.addEventListener("click", () => {
+  sidebar.classList.toggle("hide");
+  isSidebarHidden = !isSidebarHidden;
+});
+
+// Add click event listener to sidebar items
+sidebarItems.forEach((item) => {
+  item.addEventListener("click", (e) => {
+    // Prevent default link behavior
+    e.preventDefault();
+
+    // Check if the sidebar is currently hidden before toggling
+    if (isSidebarHidden) {
+      sidebar.classList.toggle("hide");
+      isSidebarHidden = !isSidebarHidden;
+    }
+
+    // Remove active class from all sidebar items
+    sidebarItems.forEach((i) => i.parentElement.classList.remove("active"));
+
+    // Add active class to the clicked sidebar item
+    item.parentElement.classList.add("active");
+
+    // Navigate to the respective page
+    const href = item.getAttribute("href");
+    window.location.href = href;
   });
 });
 
-// TOGGLE SIDEBAR
-const menuBar = document.querySelector("#content nav .bx.bx-menu");
-const sidebar = document.getElementById("sidebar");
+// Close sidebar when clicking outside
+document.addEventListener("click", (e) => {
+  const isClickInsideSidebar = sidebar.contains(e.target);
+  const isClickInsideToggle = sidebarToggle.contains(e.target);
+  const isClickInsideEvent = e.target.closest(".events");
 
-menuBar.addEventListener("click", function () {
-  sidebar.classList.toggle("hide");
-});
-
-const searchButton = document.querySelector(
-  "#content nav form .form-input button"
-);
-const searchButtonIcon = document.querySelector(
-  "#content nav form .form-input button .bx"
-);
-const searchForm = document.querySelector("#content nav form");
-
-searchButton.addEventListener("click", function (e) {
-  if (window.innerWidth < 576) {
-    e.preventDefault();
-    searchForm.classList.toggle("show");
-    if (searchForm.classList.contains("show")) {
-      searchButtonIcon.classList.replace("bx-search", "bx-x");
-    } else {
-      searchButtonIcon.classList.replace("bx-x", "bx-search");
-    }
-  }
-});
-
-if (window.innerWidth < 768) {
-  sidebar.classList.add("hide");
-} else if (window.innerWidth > 576) {
-  searchButtonIcon.classList.replace("bx-x", "bx-search");
-  searchForm.classList.remove("show");
-}
-
-window.addEventListener("resize", function () {
-  if (this.innerWidth > 576) {
-    searchButtonIcon.classList.replace("bx-x", "bx-search");
-    searchForm.classList.remove("show");
-  }
-});
-
-const switchMode = document.getElementById("switch-mode");
-
-switchMode.addEventListener("change", function () {
-  if (this.checked) {
-    document.body.classList.add("dark");
-  } else {
-    document.body.classList.remove("dark");
+  // If clicked outside sidebar and toggle, hide the sidebar
+  if (!isClickInsideSidebar && !isClickInsideToggle && !isClickInsideEvent) {
+    sidebar.classList.add("hide");
+    isSidebarHidden = true;
   }
 });

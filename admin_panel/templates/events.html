@@ -1,0 +1,53 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<main>
+  <!-- Content for events page -->
+
+  <div class="table-data">
+    <div class="events">
+      <div class="head">
+        <!-- Content for events page specific to the table header -->
+        <h3>Events</h3>
+        <a href="create_event_page.html" class="btn-create-event">
+          <i class="bx bxs-plus-circle"></i> Create Event</a
+        >
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Event Organizer</th>
+            <th>Event Category</th>
+            <th>Location</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for event in all_events %}
+          <tr>
+            <td>{{ event.name }}</td>
+            <td>{{ event.description }}</td>
+            <td>{{ event.event_category }}</td>
+            <td>{{ event.organizer }}</td>
+            <td>{{ event.location }}</td>
+            <td>{{ event.date_time }}</td>
+            <td>
+              <!-- Action buttons for each event -->
+              <a href="#" class="action-btn" title="Edit">
+                <i class="bx bx-edit"></i>
+              </a>
+              <a href="#" class="action-btn" title="Delete">
+                <i class="bx bx-trash"></i>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+{% endblock %}{% block extra_js %}
+<script src="{% static 'js/admin_dashboard.js' %}"></script>
+{% endblock %}

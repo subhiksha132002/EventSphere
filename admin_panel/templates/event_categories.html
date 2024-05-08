@@ -1,0 +1,48 @@
+{% extends 'base.html' %} {% load static %}{% block content %}
+<main>
+  <!-- Content for event category page -->
+  <div class="table-data">
+    <div class="events">
+      <div class="head">
+        <!-- Content for event category page specific to the table header -->
+        <h3>Event Categories</h3>
+        <a href="#" class="btn-create-category">
+          <i class="bx bxs-plus-circle"></i> Create Category
+        </a>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Total Events</th>
+            <th>Actions</th>
+            <!-- Column for edit and delete actions -->
+          </tr>
+        </thead>
+        <tbody>
+          {% for category in all_categories %}
+          <tr>
+            <td>{{ category.name }}</td>
+            <td>{{ category.description }}</td>
+            <td>{{ category.event_set.count }}</td>
+            <td>
+              <!-- Edit option with tooltip -->
+              <a href="#" class="action-btn" title="Edit">
+                <i class="bx bx-edit"></i>
+              </a>
+              <!-- Delete option with tooltip -->
+              <a href="#" class="action-btn" title="Delete">
+                <i class="bx bx-trash"></i>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+{% endblock %} {% block extra_js %}
+<script src="{% static 'js/admin_dashboard.js' %}"></script>
+{% endblock %}

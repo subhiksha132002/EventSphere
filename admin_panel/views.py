@@ -1,9 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from .models import Event, EventCategory, EventOrganizer
+from accounts.models import CustomUser
 from django.utils import timezone
 
 # Create your views here.
-def dashboard(request):
+# Views for Admin Dashboard
+def dashboard_view(request):
     # Retrieve data for the dashboard
     total_events = Event.objects.count()
     total_categories = EventCategory.objects.count()
@@ -18,5 +21,16 @@ def dashboard(request):
         'total_organizers': total_organizers,
         'total_completed_events': total_completed_events,
         'latest_events': latest_events,
+        'active_page': 'dashboard'
     }
-    return render(request, 'index.html', context)
+    return render(request, 'base.html',context)
+
+# Function to retrieve event page
+def events_view(request):
+    all_events = Event.objects.all()
+    return render(request, 'events.html', {'active_page': 'events', 'all_events': all_events})
+
+# Function to retrieve event category page
+def event_categories_view(request):
+    all_categories = EventCategory.objects.all()
+    return render(request, 'event_categories.html', {'active_page': 'event_categories', 'all_categories': all_categories})

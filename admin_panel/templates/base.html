@@ -10,43 +10,52 @@
       href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <!-- My CSS -->
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/events.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/event_categories.css' %}" />
   </head>
   <body>
     <!-- SIDEBAR -->
     <section id="sidebar">
       <a href="#" class="brand">
-        <i class="bx bxs-smile"></i>
+        <i class="fa-solid fa-calendar-days"></i>
         <span class="text">EventSphere</span>
       </a>
       <ul class="side-menu top">
-        <li class="active">
-          <a href="#">
+        <li {% if active_page == 'dashboard' %}class="active"{% endif %}>
+          <a href="{% url 'admin_panel:dashboard' %}">
             <i class="bx bxs-dashboard"></i>
             <span class="text">Dashboard</span>
           </a>
         </li>
-        <li>
-          <a href="#">
-            <i class="bx bxs-shopping-bag-alt"></i>
-            <span class="text">Event Categories</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="bx bxs-doughnut-chart"></i>
+        <li {% if active_page == 'events' %}class="active"{% endif %}>
+          <a href="{% url 'admin_panel:events' %}">
+            <i class="bx bxs-calendar-event"></i>
             <span class="text">Events</span>
           </a>
         </li>
-        <li>
+        <li {% if active_page == 'event_categories' %}class="active"{% endif %}>
+          <a href="{% url 'admin_panel:event_categories' %}">
+            <i class="bx bxs-category"></i>
+            <span class="text">Event Categories</span>
+          </a>
+        </li>
+        <li {% if active_page == 'users' %}class="active"{% endif %}>
           <a href="#">
-            <i class="bx bxs-message-dots"></i>
+            <i class="bx bxs-user"></i>
             <span class="text">Users</span>
           </a>
         </li>
-        <li>
+        <li {% if active_page == 'events_organizers' %}class="active"{% endif %}>
           <a href="#">
             <i class="bx bxs-group"></i>
             <span class="text">Event Organizers</span>
@@ -75,16 +84,17 @@
       <!-- NAVBAR -->
       <nav>
         <i class="bx bx-menu"></i>
-        <a href="#" class="nav-link">Admin Panel</a>
-        <input type="checkbox" id="switch-mode" hidden />
-        <label for="switch-mode" class="switch-mode"></label>
+        {% if user.is_authenticated %}
         <a href="#" class="profile">
-          <img src="img/people.png" />
+          <i class="bx bxs-user-circle"></i>
+          {{ user.username }}
         </a>
+        {% endif %}
       </nav>
       <!-- NAVBAR -->
 
       <!-- MAIN -->
+      {% block content %}
       <main>
         <div class="head-title">
           <div class="left">
@@ -99,29 +109,24 @@
               </li>
             </ul>
           </div>
-          <a href="#" class="btn-download">
-            <i class="bx bxs-cloud-download"></i>
-            <span class="text">Download PDF</span>
-          </a>
         </div>
-
         <ul class="box-info">
           <li>
-            <i class="bx bxs-calendar-check"></i>
+            <i class="bx bxs-category"></i>
             <span class="text">
               <h3>{{ total_categories }}</h3>
               <p>Event Categories</p>
             </span>
           </li>
           <li>
-            <i class="bx bxs-group"></i>
+            <i class="bx bxs-calendar-event"></i>
             <span class="text">
               <h3>{{ total_events }}</h3>
               <p>Events</p>
             </span>
           </li>
           <li>
-            <i class="bx bxs-dollar-circle"></i>
+            <i class="bx bxs-group"></i>
             <span class="text">
               <h3>{{ total_organizers }}</h3>
               <p>Event Organizers</p>
@@ -140,8 +145,14 @@
           <div class="events">
             <div class="head">
               <h3>Events</h3>
-              <i class="bx bx-search"></i>
-              <i class="bx bx-filter"></i>
+              <input type="text" id="search-input" placeholder="Search..." />
+              <select id="filter-select">
+                <option value="">All</option>
+                <option value="department">Department Events</option>
+                <option value="college">College Events</option>
+                <option value="workshops">Workshops</option>
+              </select>
+              <button id="clear-filter">Clear Filter</button>
             </div>
             <table>
               <thead>
@@ -159,7 +170,7 @@
                 <tr>
                   <td>{{ event.name }}</td>
                   <td>{{ event.description }}</td>
-                  <td>{{ event.event_category }}</td>
+                  <td>{{ event.event_category.name }}</td>
                   <td>{{ event.organizer }}</td>
                   <td>{{ event.location }}</td>
                   <td>{{ event.date_time }}</td>
@@ -170,10 +181,13 @@
           </div>
         </div>
       </main>
+      {% endblock %}
       <!-- MAIN -->
     </section>
     <!-- CONTENT -->
 
+    {% block extra_js %}
     <script src="{% static 'js/admin_dashboard.js' %}"></script>
+    {% endblock %}
   </body>
 </html>
