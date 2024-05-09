@@ -20,12 +20,7 @@
     <!-- My CSS -->
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/events.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/event_categories.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/create_event.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/create_category.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/attendees.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/event_organizers.css' %}" />
+    {% block extra_css %}{% endblock %}
   </head>
   <body>
     <!-- SIDEBAR -->

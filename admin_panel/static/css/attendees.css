@@ -10,11 +10,16 @@
 }
 
 /* Hover state for the button */
-.btn-create-attendee:hover {
+.btn-create-attendee :hover {
   background-color: #0056b3; /* Darker blue background color */
 }
 
 /* Icon style */
 .btn-create-attendee i {
   margin-right: 5px; /* Margin to the right of the icon */
+}
+
+.action-btn i {
+  font-size: 20px;
+  color: black;
 }

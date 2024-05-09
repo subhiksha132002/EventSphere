@@ -382,6 +382,41 @@ body {
   background: var(--grey);
 }
 
+#content main .table-data .events .head .btn-create-attendee,
+#content main .table-data .events .head .btn-create-event,
+#content main .table-data .events .head .btn-create-category,
+#content main .table-data .events .head .btn-create-organizer {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover state for create buttons with high specificity */
+#content main .table-data .events .head .btn-create-attendee:hover,
+#content main .table-data .events .head .btn-create-event:hover,
+#content main .table-data .events .head .btn-create-category:hover,
+#content main .table-data .events .head .btn-create-organizer:hover {
+  background-color: #0056b3;
+}
+
+/* Icon style for create buttons with high specificity */
+#content main .table-data .events .head .btn-create-attendee i,
+#content main .table-data .events .head .btn-create-event i,
+#content main .table-data .events .head .btn-create-category i,
+#content main .table-data .events .head .btn-create-organizer i {
+  margin-right: 5px;
+}
+
+/* Styles for action buttons with high specificity */
+#content main .table-data .events table tbody tr td .action-btn i {
+  font-size: 20px;
+  color: black;
+}
 /* Search input */
 #search-input,
 #filter-select {

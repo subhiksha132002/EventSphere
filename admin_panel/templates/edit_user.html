@@ -1,0 +1,24 @@
+{% extends "base.html" %} {% load static%}{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/edit_user.css' %}" />
+{% endblock %}{% block content %}
+<div class="edit-user">
+  <h3>Edit User</h3>
+  <form
+    id="edit-user-form"
+    method="post"
+    enctype="multipart/form-data"
+    action="{% url 'admin_panel:edit_user' user.id %}"
+  >
+    {% csrf_token %} {% for field in form %}
+    <div class="form-group">
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+      {{ field }}
+    </div>
+    {% endfor %}
+
+    <button type="submit" id="submit-btn">Edit</button>
+  </form>
+</div>
+{% endblock %} {% block extra_js %}
+<script src="{% static 'js/admin_dashboard.js' %}"></script>
+{% endblock %}

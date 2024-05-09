@@ -1,0 +1,53 @@
+/* edit_event.css */
+
+/* Style for edit event form */
+.edit-organizer {
+  width: 80%; /* Adjust the width of the edit event container */
+  margin: 0 auto; /* Center the container */
+  text-align: center;
+}
+
+.edit-organizer h3 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* Style for form groups */
+.form-group {
+  display: flex; /* Use flexbox to align label and input field horizontally */
+  align-items: center; /* Vertically center label and input field */
+  margin-bottom: 20px; /* Add margin bottom to create space between form groups */
+}
+
+.form-group label {
+  flex-basis: 30%; /* Set the width of the label */
+  margin-right: 10px; /* Add margin right to create space between label and input field */
+  font-size: 18px;
+  text-align: left;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  flex-grow: 1; /* Let the input field grow to take remaining space */
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #ccc; /* Add border with a light gray color */
+}
+
+button[type="submit"] {
+  margin-top: 20px; /* Add margin top to create space between input fields and submit button */
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  margin-bottom: 30px;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}

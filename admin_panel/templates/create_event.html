@@ -1,4 +1,7 @@
-{% extends "base.html" %} {% load static %} {% block content %}
+{% extends "base.html" %} {% load static %} {% block extra_css %}<link
+  rel="stylesheet"
+  href="{% static 'css/create_event.css' %}"
+/>{% endblock %}{% block content %}
 <div class="create-event">
   <h3>Create Event</h3>
   <form

@@ -19,3 +19,8 @@
 .btn-create-event i {
   margin-right: 5px; /* Margin to the right of the icon */
 }
+
+.action-btn .bx {
+  font-size: 20px;
+  color: black;
+}

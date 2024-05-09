@@ -1,4 +1,7 @@
-{% extends "base.html" %} {% load static %} {% block content %}
+{% extends "base.html" %} {% load static %}{% block extra_css %}<link
+  rel="stylesheet"
+  href="{% static 'css/create_user.css' %}"
+/>{% endblock %} {% block content %}
 <div class="create-event">
   <h3>Create User</h3>
   <form

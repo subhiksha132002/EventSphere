@@ -31,7 +31,11 @@
             <td>{{ category.event_set.count }}</td>
             <td>
               <!-- Edit option with tooltip -->
-              <a href="#" class="action-btn" title="Edit">
+              <a
+                href="{% url 'admin_panel:edit_category' category.id %}"
+                class="action-btn"
+                title="Edit"
+              >
                 <i class="bx bx-edit"></i>
               </a>
               <!-- Delete option with tooltip -->

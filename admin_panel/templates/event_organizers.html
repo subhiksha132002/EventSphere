@@ -35,7 +35,11 @@
             </td>
             <td>
               <!-- Edit option with tooltip -->
-              <a href="#" class="action-btn" title="Edit">
+              <a
+                href="{% url 'admin_panel:edit_organizer' organizer.id %}"
+                class="action-btn"
+                title="Edit"
+              >
                 <i class="bx bx-edit"></i>
               </a>
               <!-- Delete option with tooltip -->

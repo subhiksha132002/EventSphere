@@ -42,7 +42,7 @@
       </td>
             <td>
               <!-- Action buttons for each event -->
-              <a href="#" class="action-btn" title="Edit">
+              <a href="{% url 'admin_panel:edit_user' user.id %}" class="action-btn" title="Edit">
                 <i class="bx bx-edit"></i>
               </a>
               <a href="#" class="action-btn" title="Delete">
