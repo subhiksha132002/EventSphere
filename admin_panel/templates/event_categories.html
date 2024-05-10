@@ -1,4 +1,6 @@
-{% extends 'base.html' %} {% load static %}{% block content %}
+{% extends 'base.html' %} {% load static %} {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/sweetalert2.min.css' %}" />
+{% endblock %}{% block content %}
 <main>
   <!-- Content for event category page -->
   <div class="table-data">
@@ -51,5 +53,31 @@
   </div>
 </main>
 {% endblock %} {% block extra_js %}
-<script src="{% static 'js/admin_dashboard.js' %}"></script>
+<script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Add event listener to all delete buttons
+    const deleteButtons = document.querySelectorAll(".delete-category-btn");
+    deleteButtons.forEach((button) => {
+      button.addEventListener("click", function () {
+        const categoryId = button.dataset.categoryId;
+        // Show confirmation dialog for delete action
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // User confirmed, delete the category
+            window.location.href = `/delete-category/${categoryId}/`;
+          }
+        });
+      });
+    });
+  });
+</script>
 {% endblock %}

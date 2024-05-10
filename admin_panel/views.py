@@ -8,6 +8,7 @@ from .forms import EventForm,EditEventForm,EventCategoryForm,EditCategoryForm,Us
 from django.utils import timezone
 from django.contrib import messages
 from django.urls import reverse
+from django.http import JsonResponse
 import logging
 
 # Views for Admin Dashboard
@@ -37,41 +38,31 @@ def events_view(request):
 
 def create_event_view(request):
     event_categories = EventCategory.objects.all()  # Retrieve all event categories
+    attendees = CustomUser.objects.all()  # Retrieve all attendees
     return render(request, 'create_event.html', {
         'event_categories': event_categories,
+        'attendees': attendees,  # Pass the attendees to the template context
         'active_page': 'events'  # Set the active_page context variable to 'events'
     })
 
-logger = logging.getLogger(__name__)
-@login_required
 def create_event(request):
     if request.method == 'POST':
         form = EventForm(request.POST, request.FILES)
         if form.is_valid():
-            logger.info(f"Form data: {form.cleaned_data}")
-            with transaction.atomic():
-                event = form.save(commit=False)
-                event.organizer = request.user
-                event.save()
-                form.save_m2m()
-            event_data = {
-                'name': event.name,
-                'description': event.description,
-                'category': str(event.event_category),
-                'location': event.location,
-                'date_time': str(event.date_time),
-            }
-            return JsonResponse(event_data, status=200)
+            event = form.save(commit=False)
+            event.organizer = request.user
+            event.save()
+            form.save_m2m()  # Save many-to-many relationships
+            # Handle attendees field
+            attendee_ids = request.POST.getlist('attendees')  # Get selected attendee IDs
+            event.attendees.set(attendee_ids)  # Add attendees to the event
+            return JsonResponse({'success': True, 'message': 'Event created successfully.'})
         else:
-            return JsonResponse({'error': 'Invalid form data'}, status=400)
+            return JsonResponse({'success': False, 'message': 'Failed to create event. Please check the form data.'}, status=400)
     else:
         form = EventForm()
-    return render(request, 'create_event.html', {'form': form})
-
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import Event
-from .forms import EditEventForm
-
+        return render(request, 'create_event.html', {'form': form})
+    
 def edit_event_view(request, event_id):
     # Retrieve existing event
     event = get_object_or_404(Event, id=event_id)
@@ -111,23 +102,17 @@ def create_category_view(request):
     
     return render(request, 'create_category.html', {'form': form, 'active_page': active_page})
 
-@login_required
 def create_category(request):
     if request.method == 'POST':
-        form = EventCategoryForm(request.POST, request.FILES)
+        form = EventCategoryForm(request.POST)
         if form.is_valid():
-            logger.info(f"Form data: {form.cleaned_data}")
             with transaction.atomic():
-                event = form.save(commit=False)
-                event.organizer = request.user
-                event.save()
-                form.save_m2m()
+                event_category = form.save(commit=False)
+                event_category.save()
             event_data = {
-                'name': event.name,
-                'description': event.description,
-                'category': str(event.event_category),
-                'location': event.location,
-                'date_time': str(event.date_time),
+                'name': event_category.name,
+                'description': event_category.description,
+
             }
             return JsonResponse(event_data, status=200)
         else:
@@ -137,24 +122,40 @@ def create_category(request):
     return render(request, 'create_category.html', {'form': form})
 
 def edit_category_view(request, category_id):
-    # Retrieve existing category
     category = get_object_or_404(EventCategory, id=category_id)
-
     if request.method == 'POST':
-        # Handle form submission
-        form = EditCategoryForm(request.POST, instance=category)
+        form = EventCategoryForm(request.POST, instance=category)
         if form.is_valid():
             form.save()
-            # Redirect to a success page or category list page
-            return redirect('success_page')
+            # Redirect to a success page or another view
     else:
-        # Pre-populate form fields with category data
-        form = EditCategoryForm(instance=category)
-
-    # Pass the active page to the template
-    active_page = 'event_categories' 
-
+        form = EventCategoryForm(instance=category)
+    active_page = 'event_categories'
     return render(request, 'edit_category.html', {'form': form, 'category': category, 'active_page': active_page})
+
+def edit_category(request, category_id):
+    category = get_object_or_404(EventCategory, id=category_id)
+    if request.method == 'POST':
+        form = EventCategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            updated_category = form.save()
+            messages.success(request, 'Category updated successfully.')  # Add success message
+            return redirect('admin_panel:edit_category', category_id=category_id)  # Redirect back to edit page
+        else:
+            messages.error(request, 'Failed to update category. Please check the form data.')  # Add error message
+    else:
+        form = EventCategoryForm(instance=category)
+    active_page = 'event_categories'
+    return render(request, 'edit_category.html', {'form': form, 'category': category, 'active_page': active_page})
+    
+def delete_category(request, category_id):
+    category = get_object_or_404(EventCategory, id=category_id)
+    if request.method == 'POST':
+        category.delete()
+        # Redirect to the event categories list or another appropriate page
+        return redirect(reverse('admin_panel:event_categories'))
+    active_page = 'event_categories'
+    return render(request, 'delete_category.html', {'category': category, 'active_page': active_page})
 
 # Function to retrieve user page
 def users_view(request):
@@ -169,6 +170,7 @@ def users_view(request):
     return render(request, 'attendees.html', context)
 
 def create_user_view(request):
+    events = Event.objects.all()
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
@@ -176,14 +178,21 @@ def create_user_view(request):
             events_attending = form.cleaned_data.get('events_attending')
             user.save()
             user.events_attending.set(events_attending)
-            # Redirect to a success page or another view
-            return redirect('success_url')
+            success_message = 'User created successfully.'
+            return JsonResponse({'success': success_message}, status=200)
+        else:
+            error_message = 'Failed to create user. Please check the form data.'
+            return JsonResponse({'error': error_message}, status=400)
     else:
-        form = UserForm()
-
-    active_page = 'users'
-    return render(request, 'create_attendee.html', {'form': form, 'active_page': active_page})
-
+        form = UserForm(initial={'events_attending': events})
+        active_page = 'users'
+        context = {
+            'form': form,
+            'active_page': active_page,
+            'events': events,
+        }
+        return render(request, 'create_attendee.html', context)
+      
 def edit_user_view(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
 

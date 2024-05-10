@@ -3,10 +3,11 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Event,EventCategory,CustomUser
 
 class EventForm(forms.ModelForm):
+    attendees = forms.ModelMultipleChoiceField(queryset=CustomUser.objects.all(), required=False)  # Add attendees field
+
     class Meta:
         model = Event
-        fields = ['name', 'description', 'event_category', 'location', 'date_time', 'image']
-
+        fields = ['name', 'description', 'event_category', 'location', 'date_time', 'image', 'attendees']
 class EditEventForm(forms.ModelForm):
     class Meta:
         model = Event
@@ -23,7 +24,7 @@ class EventCategoryForm(forms.ModelForm):
 class EditCategoryForm(forms.ModelForm):
     class Meta:
         model = EventCategory
-        fields = ['name', 'description']  # Add fields you want to edit
+        fields = ['name', 'description']  
 
     def __init__(self, *args, **kwargs):
         super(EditCategoryForm, self).__init__(*args, **kwargs)
@@ -31,7 +32,7 @@ class EditCategoryForm(forms.ModelForm):
 class UserForm(forms.ModelForm):
     events_attending = forms.ModelMultipleChoiceField(
         queryset=Event.objects.all(),
-        widget=forms.CheckboxSelectMultiple(),
+        widget=forms.SelectMultiple(attrs={'class': 'form-control'}),
         required=False
     )
 
@@ -43,7 +44,7 @@ class UserForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if self.instance.pk:
             self.fields['events_attending'].initial = self.instance.events_attending.all()
-
+            
 class EditUserForm(forms.ModelForm):
     events_attending = forms.ModelChoiceField(
         queryset=Event.objects.all(),

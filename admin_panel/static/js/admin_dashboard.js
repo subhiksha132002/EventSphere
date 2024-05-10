@@ -41,3 +41,53 @@ document.addEventListener("click", (e) => {
     isSidebarHidden = true;
   }
 });
+
+// JavaScript code for enabling multi-select functionality
+var select = document.getElementById("events_attending");
+select.addEventListener("change", function () {
+  // Count the number of selected options
+  var selectedCount = select.selectedOptions.length;
+  // If more than one option is selected, allow multiple selection
+  if (selectedCount > 1) {
+    select.setAttribute("multiple", "multiple");
+  } else {
+    // If only one option is selected, disable multiple selection
+    select.removeAttribute("multiple");
+  }
+});
+
+// Get the modals and their elements
+var errorModal = document.getElementById("errorModal");
+var successModal = document.getElementById("successModal");
+var spans = document.getElementsByClassName("close");
+var errorMessage = document.getElementById("errorMessage");
+var successMessage = document.getElementById("successMessage");
+
+// When the user clicks on the close button, close the modal
+for (var i = 0; i < spans.length; i++) {
+  spans[i].onclick = function () {
+    errorModal.style.display = "none";
+    successModal.style.display = "none";
+  };
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+  if (event.target == errorModal) {
+    errorModal.style.display = "none";
+  } else if (event.target == successModal) {
+    successModal.style.display = "none";
+  }
+};
+
+// Function to show the error modal
+function showErrorModal(message) {
+  errorMessage.textContent = message;
+  errorModal.style.display = "block";
+}
+
+// Function to show the success modal
+function showSuccessModal(message) {
+  successMessage.textContent = message;
+  successModal.style.display = "block";
+}

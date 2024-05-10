@@ -24,7 +24,9 @@
         <textarea id="description" name="description" required></textarea>
       </div>
     </div>
-    <button type="submit" id="submit-btn">Create</button>
+    <button type="submit" id="submit-btn">
+      <a href="{% url 'admin_panel:create_category_submit' %}"></a>Create
+    </button>
   </form>
 </div>
 {% endblock %}

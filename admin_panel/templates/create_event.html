@@ -1,7 +1,6 @@
-{% extends "base.html" %} {% load static %} {% block extra_css %}<link
-  rel="stylesheet"
-  href="{% static 'css/create_event.css' %}"
-/>{% endblock %}{% block content %}
+{% extends "base.html" %} {% load static %} {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/create_event.css' %}" />
+{% endblock %} {% block content %}
 <div class="create-event">
   <h3>Create Event</h3>
   <form
@@ -14,7 +13,6 @@
     <div class="form-group">
       <label for="name">Event Name:</label>
       <div class="input-field">
-        <!-- added container for input fields -->
         <input type="text" id="name" name="name" required />
       </div>
     </div>
@@ -52,8 +50,20 @@
         <input type="file" id="image" name="image" accept="image/*" />
       </div>
     </div>
-    <button type="submit" id="submit-btn">Create</button>
+    <!-- Add attendees field -->
+    <div class="form-group">
+      <label for="attendees">Attendees:</label>
+      <div class="input-field">
+        <select id="attendees" name="attendees" multiple>
+          {% for attendee in attendees %}
+          <option value="{{ attendee.id }}">{{ attendee.username }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <button type="submit" id="submit-btn">
+      <a href="{% url 'admin_panel:create_event_submit' %}">Create</a>
+    </button>
   </form>
 </div>
-
 {% endblock %}

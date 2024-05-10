@@ -13,6 +13,7 @@ urlpatterns = [
     path('event_categories/create_category/', views.create_category_view, name='create_category'),
     path('event_categories/create_category/create/', views.create_category, name='create_category_submit'),
     path('event_categories/<int:category_id>/edit_category/', views.edit_category_view, name='edit_category'),
+    path('event_categories/<int:category_id>/delete_category/', views.delete_category, name='delete_category'),
     path('users/', views.users_view, name='users'),
     path('users/create_user/', views.create_user_view, name='create_user'),
     path('users/<int:user_id>/edit_user/', views.edit_user_view, name='edit_user'),
