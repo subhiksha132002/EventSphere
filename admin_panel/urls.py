@@ -17,6 +17,5 @@ urlpatterns = [
     path('users/<int:user_id>/edit_user/', views.edit_user, name='edit_user'),
     path('event_organizers/', views.event_organizers_view, name='event_organizers'),
     path('event_organizers/create_organizer/', views.create_organizer, name='create_organizer'),
-    path('event_organizers/<int:organizer_id>/edit_organizer/', views.edit_organizer, name='edit_organizer'),
-
+    path('event_organizers/<int:user_id>/edit_organizer/', views.edit_organizer, name='edit_organizer'),
 ]

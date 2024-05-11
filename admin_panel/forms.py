@@ -65,41 +65,29 @@ class EditUserForm(forms.ModelForm):
 from django import forms
 from .models import CustomUser, EventOrganizer, Event
 
-class EventOrganizerForm(forms.ModelForm):
-    email = forms.EmailField()
-    events = forms.ModelChoiceField(
-        queryset=Event.objects.none(),
-        required=False,
-        empty_label="Select Event (Optional)"
-    )
-    phone_number = forms.CharField(
-        max_length=20,
-        required=False,
-        label="Phone Number"
-    )
-
+class EditOrganizerBasicForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'username', 'email', 'events']
+        fields = ['first_name', 'username', 'email']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['events'].queryset = Event.objects.all()
+        if self.instance.pk:
+            self.fields['first_name'].initial = self.instance.first_name
+            self.fields['username'].initial = self.instance.username
+            self.fields['email'].initial = self.instance.email
 
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        if commit:
-            user.save()
-        event = self.cleaned_data.get('events')
-        phone_number = self.cleaned_data.get('phone_number')
-        if event or phone_number:
-            organizer, created = EventOrganizer.objects.get_or_create(user=user)
-            if event:
-                organizer.events_organized.set([event])
-            if phone_number:
-                organizer.phone_number = phone_number
-            organizer.save()
-        return user
+class EventOrganizerForm(forms.ModelForm):
+    events_organized = forms.ModelMultipleChoiceField(
+        queryset=Event.objects.all(),
+        required=False,
+        widget=forms.SelectMultiple,
+        label="Events Organized"
+    )
+
+    class Meta:
+        model = EventOrganizer
+        fields = ['phone_number', 'status', 'events_organized']
 
 class EditOrganizerForm(forms.ModelForm):
     class Meta:

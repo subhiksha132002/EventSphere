@@ -4,12 +4,12 @@ from django.db import transaction
 from django.contrib.auth.decorators import login_required
 from .models import Event, EventCategory, EventOrganizer
 from accounts.models import CustomUser
-from .forms import EventForm,EditEventForm,EventCategoryForm,EditCategoryForm,UserForm,EditUserForm,EventOrganizerForm,EditOrganizerForm
+from .forms import EventForm,EditEventForm,EventCategoryForm,EditCategoryForm,UserForm,EditUserForm,EventOrganizerForm,EditOrganizerForm,EditOrganizerBasicForm
 from django.utils import timezone
 from django.contrib import messages
 from django.urls import reverse
 from django.http import JsonResponse,HttpResponseRedirect
-import logging
+from django.contrib.auth import get_user_model
 
 # Views for Admin Dashboard
 def dashboard_view(request):
@@ -195,53 +195,58 @@ def event_organizers_view(request):
     }
     return render(request, 'event_organizers.html', context)
 
+from django.http import JsonResponse
+
+User = get_user_model()
+
 def create_organizer(request):
     if request.method == 'POST':
         form = EventOrganizerForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.user_type = 'organizer'
-            user.save()
+            # Create a new User instance
+            user_data = {
+                'username': request.POST.get('username'),
+                'email': request.POST.get('email'),
+                'first_name': request.POST.get('first_name'),
+                'user_type': 'organizer',
+            }
+            user = User.objects.create_user(**user_data)
 
-            # Create or update the EventOrganizer instance
-            events = form.cleaned_data.get('events')
-            phone_number = form.cleaned_data.get('phone_number')
-            organizer, created = EventOrganizer.objects.get_or_create(user=user)
-            if events:
-                organizer.events_organized.set(events)
-            organizer.phone_number = phone_number
+            # Create an Organizer instance and associate it with the User
+            organizer = form.save(commit=False)
+            organizer.user = user
             organizer.save()
+            form.save_m2m()  # Save the many-to-many relationships
 
             return JsonResponse({'success': 'Organizer created successfully.'}, status=200)
-        else:
-            return JsonResponse({'error': form.errors}, status=400)
+        return JsonResponse({'error': form.errors}, status=400)
+
     else:
         form = EventOrganizerForm()
         active_page = 'event_organizers'
         return render(request, 'create_organizer.html', {'form': form, 'active_page': active_page})
-    
-def edit_organizer(request, organizer_id):
-    user = get_object_or_404(CustomUser, id=organizer_id)
-    organizer = EventOrganizer.objects.get(user=user)
+            
+def edit_organizer(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    organizer = get_object_or_404(EventOrganizer, user=user)
 
     if request.method == 'POST':
-        form = EditOrganizerForm(request.POST, instance=user)
+        form = EditOrganizerBasicForm(request.POST, instance=user)
         if form.is_valid():
             user = form.save()
-            organizer.phone_number = request.POST.get('phone_number')
+            organizer.user = user  # Update the user field in the EventOrganizer instance
             organizer.save()
+            messages.success(request, 'Organizer details updated successfully.')
             return redirect('admin_panel:event_organizers')
     else:
-        form = EditOrganizerForm(instance=user, initial={'phone_number': organizer.phone_number})
+        form = EditOrganizerBasicForm(instance=user)
 
-    active_page = 'event_organizers'
     context = {
         'form': form,
-        'user': user,
-        'active_page': active_page,
+        'organizer': organizer,
+        'active_page': 'event_organizers'
     }
     return render(request, 'edit_organizer.html', context)
-
 def delete_organizer(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
     organizer = EventOrganizer.objects.get(user=user)

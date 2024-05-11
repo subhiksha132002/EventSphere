@@ -33,11 +33,11 @@
             <td>{{ organizer.user.email }}</td>
             <td>{{ organizer.phone_number }}</td>
             <td>
-              {% if organizer.status == 'pending' %}
+              {% if organizer.status == 'Pending' %}
               <button class="status-btn pending">Pending</button>
-              {% elif organizer.status == 'approved' %}
+              {% elif organizer.status == 'Approved' %}
               <button class="status-btn approved">Approved</button>
-              {% elif organizer.status == 'rejected' %}
+              {% elif organizer.status == 'Rejected' %}
               <button class="status-btn rejected">Rejected</button>
               {% endif %}
             </td>

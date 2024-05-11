@@ -548,26 +548,26 @@ button[type="submit"]:hover {
 }
 
 .status-btn {
-  font-style: var(--nunito);
+  padding: 5px 10px;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: bold;
 }
 
-.status-btn pending {
-  background-color: orange;
-  font-style: var(--nunito);
+.status-btn.pending {
+  background-color: #ffc107; /* Yellow */
 }
 
-.status-btn approved {
-  background-color: green;
-  font-style: var(--nunito);
+.status-btn.approved {
+  background-color: #28a745; /* Green */
 }
 
-.status-btn rejected {
-  background-color: red;
-  font-style: var(--nunito);
+.status-btn.rejected {
+  background-color: #dc3545; /* Red */
 }
-.status-btn pending:focus,
-.status-btn approved:focus,
-.status-btn rejected:focus,
+.status-btn.pending:focus,
+.status-btn .approved:focus,
+.status-btn .rejected:focus,
 .user-type-btn:focus,
 .status-btn:focus {
   outline: none;
