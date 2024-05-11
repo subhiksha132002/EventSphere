@@ -394,6 +394,7 @@ body {
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s ease;
+  margin-bottom: 20px;
 }
 
 /* Hover state for create buttons with high specificity */
@@ -416,6 +417,65 @@ body {
 #content main .table-data .events table tbody tr td .action-btn i {
   font-size: 20px;
   color: black;
+}
+
+.create-event {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.create-event h3 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+button[type="submit"] {
+  background-color: #007bff; /* Blue background color */
+  color: #fff; /* White text color */
+  border: none; /* Remove border */
+  padding: 10px 20px; /* Padding */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Cursor style */
+  font-size: 16px; /* Font size */
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+  margin-bottom: 20px;
+}
+
+/* Hover state for the button */
+button[type="submit"]:hover {
+  background-color: #0056b3; /* Darker blue background color */
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  flex-basis: 30%;
+  margin-right: 10px; /* Adjust the right margin to add space */
+  margin-left: 10px; /* Add left margin for space from the left */
+  font-size: 18px;
+}
+
+.form-group .input-field {
+  flex-grow: 1;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%; /* Input fields occupy full width */
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #ccc; /* Add border with a light gray color */
+}
+
+.form-group .input-field {
+  flex-grow: 0; /* Change flex-grow to 0 to restrict width expansion */
+  width: 50%; /* Set a specific width for the input fields, adjust as needed */
 }
 
 /* Search input */

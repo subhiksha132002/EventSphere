@@ -1,24 +1,123 @@
-{% extends "base.html" %} {% load static%}{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/edit_organizer.css' %}" />
-{% endblock %}{% block content %}
-<div class="edit-organizer">
-  <h3>Edit Event Organizers</h3>
-  <form
-    id="edit-organizer-form"
-    method="post"
-    enctype="multipart/form-data"
-    action="{% url 'admin_panel:edit_organizer' user.id %}"
-  >
-    {% csrf_token %} {% for field in form %}
-    <div class="form-group">
-      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-      {{ field }}
-    </div>
-    {% endfor %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventSphere</title>
+    <!-- Boxicons -->
+    <link
+      href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- My CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/edit_base.css' %}" />
+  </head>
+  <body>
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+      <a href="#" class="brand">
+        <i class="fa-solid fa-calendar-days"></i>
+        <span class="text">EventSphere</span>
+      </a>
+      <ul class="side-menu top">
+        <li class="{% if active_page == 'dashboard' %}active{% endif %}">
+          <a href="{% url 'admin_panel:dashboard' %}">
+            <i class="bx bxs-dashboard"></i>
+            <span class="text">Dashboard</span>
+          </a>
+        </li>
+        <li class="{% if active_page == 'events' %}active{% endif %}">
+          <a href="{% url 'admin_panel:events' %}">
+            <i class="bx bxs-calendar-event"></i>
+            <span class="text">Events</span>
+          </a>
+        </li>
+        <li class="{% if active_page == 'event_categories' %}active{% endif %}">
+          <a href="{% url 'admin_panel:event_categories' %}">
+            <i class="bx bxs-category"></i>
+            <span class="text">Event Categories</span>
+          </a>
+        </li>
+        <li class="{% if active_page == 'users' %}active{% endif %}">
+          <a href="{% url 'admin_panel:users' %}">
+            <i class="bx bxs-user"></i>
+            <span class="text">Users</span>
+          </a>
+        </li>
+        <li class="{% if active_page == 'event_organizers' %}active{% endif %}">
+          <a href="{% url 'admin_panel:event_organizers' %}">
+            <i class="bx bxs-group"></i>
+            <span class="text">Event Organizers</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="side-menu">
+        <li>
+          <a href="#">
+            <i class="bx bxs-cog"></i>
+            <span class="text">Settings</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="logout">
+            <i class="bx bxs-log-out-circle"></i>
+            <span class="text">Logout</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+    <!-- SIDEBAR -->
 
-    <button type="submit" id="submit-btn">Update</button>
-  </form>
-</div>
-{% endblock %} {% block extra_js %}
-<script src="{% static 'js/admin_dashboard.js' %}"></script>
-{% endblock %}
+    <!-- CONTENT -->
+    <section id="content">
+      <!-- NAVBAR -->
+      <nav>
+        <i class="bx bx-menu"></i>
+        {% if user.is_authenticated %}
+        <a href="#" class="profile">
+          <i class="bx bxs-user-circle"></i>
+          {{ user.username }}
+        </a>
+        {% endif %}
+      </nav>
+      <!-- NAVBAR -->
+
+      <!-- MAIN -->
+      <main>
+        <div class="edit_base">
+          <h3>Edit Event Organizers</h3>
+          <form
+            id="edit-base-form"
+            method="post"
+            enctype="multipart/form-data"
+            action="{% url 'admin_panel:edit_organizer' user.id %}"
+          >
+            {% csrf_token %} {% for field in form %}
+            <div class="form-group">
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+            </div>
+            {% endfor %}
+
+            <button type="submit" id="submit-btn">Update</button>
+          </form>
+        </div>
+      </main>
+      <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {% block extra_js %}
+    <script src="{% static 'js/admin_dashboard.js' %}"></script>
+    {% endblock %}
+  </body>
+</html>

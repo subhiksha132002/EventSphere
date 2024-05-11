@@ -1,4 +1,5 @@
 /* CSS for the "Create Event" button */
+
 .btn-create-event {
   background-color: #007bff; /* Blue background color */
   color: #fff; /* White text color */
@@ -18,9 +19,4 @@
 /* Icon style */
 .btn-create-event i {
   margin-right: 5px; /* Margin to the right of the icon */
-}
-
-.action-btn .bx {
-  font-size: 20px;
-  color: black;
 }

@@ -17,7 +17,8 @@
 
 .form-group label {
   flex-basis: 30%;
-  margin-right: 10px;
+  margin-right: 10px; /* Adjust the right margin to add space */
+  margin-left: 10px; /* Add left margin for space from the left */
   font-size: 18px;
 }
 

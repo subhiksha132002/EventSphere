@@ -13,22 +13,22 @@
 }
 
 /* Style for form groups */
-.form-group {
+.form-group-organizer {
   display: flex; /* Use flexbox to align label and input field horizontally */
   align-items: center; /* Vertically center label and input field */
   margin-bottom: 20px; /* Add margin bottom to create space between form groups */
 }
 
-.form-group label {
+.form-group-organizer label {
   flex-basis: 30%; /* Set the width of the label */
   margin-right: 10px; /* Add margin right to create space between label and input field */
   font-size: 18px;
   text-align: left;
 }
 
-.form-group input,
-.form-group textarea,
-.form-group select {
+.form-group-organizer input,
+.form-group-organizer textarea,
+.form-group-organizer select {
   flex-grow: 1; /* Let the input field grow to take remaining space */
   padding: 8px;
   border-radius: 10px;

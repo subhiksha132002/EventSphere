@@ -4,12 +4,16 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 class CustomUser(AbstractUser):
     USER_TYPE_CHOICES = (
-        ('admin', 'Admin'),
+        ('regular', 'Regular User'),
         ('organizer', 'Event Organizer'),
-        ('attendee', 'Attendee'),
+        ('admin', 'Administrator'),
     )
-    user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES)
+    user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES, default='regular')
     events_attending = models.ManyToManyField('admin_panel.Event', related_name='attending_users')
+    user_status = models.CharField(max_length=20, choices=(
+        ('active', 'Active'),
+        ('inactive', 'Inactive'),
+    ), default='active')
 
     def __str__(self):
         return self.username

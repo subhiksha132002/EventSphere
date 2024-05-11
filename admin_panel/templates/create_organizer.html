@@ -1,11 +1,8 @@
-{% extends "base.html" %} {% load static %} {% block extra_css %}<link
-  rel="stylesheet"
-  href="{% static 'css/create_organizer.css' %}"
-/>{% endblock %}{% block content %}
+{% extends "create_base.html" %} {% load static %} {% block content %}
 <div class="create-event">
   <h3>Create Event Organizer</h3>
   <form
-    id="create-user-form"
+    id="create-event-form"
     method="post"
     enctype="multipart/form-data"
     action="{% url 'admin_panel:create_organizer' %}"
@@ -31,10 +28,8 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="event_organized">Event Organized</label>
-      <div class="input-field">
-        <input type="text" id="event_organized" name="event_organized" />
-      </div>
+      <label for="events">Select Event:</label>
+      <div class="input-field">{{ form.events }}</div>
     </div>
     <button type="submit" id="submit-btn">Create</button>
   </form>

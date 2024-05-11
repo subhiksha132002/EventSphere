@@ -1,11 +1,8 @@
-{% extends "base.html" %} {% load static %} {% block extra_css %}<link
-  rel="stylesheet"
-  href="{% static 'css/create_category.css' %}"
-/>{% endblock %}{% block content %}
-<div class="create-event-category">
+{% extends "create_base.html" %} {% load static %} {% block content %}
+<div class="create-event">
   <h3>Create Event Category</h3>
   <form
-    id="create-event-category-form"
+    id="create-event-form"
     method="post"
     enctype="multipart/form-data"
     action="{% url 'admin_panel:create_category' %}"
@@ -24,9 +21,7 @@
         <textarea id="description" name="description" required></textarea>
       </div>
     </div>
-    <button type="submit" id="submit-btn">
-      <a href="{% url 'admin_panel:create_category_submit' %}"></a>Create
-    </button>
+    <button type="submit" id="submit-btn">Create</button>
   </form>
 </div>
 {% endblock %}

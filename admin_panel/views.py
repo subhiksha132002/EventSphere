@@ -8,7 +8,7 @@ from .forms import EventForm,EditEventForm,EventCategoryForm,EditCategoryForm,Us
 from django.utils import timezone
 from django.contrib import messages
 from django.urls import reverse
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponseRedirect
 import logging
 
 # Views for Admin Dashboard
@@ -36,33 +36,29 @@ def events_view(request):
     all_events = Event.objects.all()
     return render(request, 'events.html', {'active_page': 'events', 'all_events': all_events})
 
-def create_event_view(request):
+def create_event(request):
     event_categories = EventCategory.objects.all()  # Retrieve all event categories
     attendees = CustomUser.objects.all()  # Retrieve all attendees
+    if request.method == 'POST':
+        form = EventForm(request.POST, request.FILES)
+        event = form.save(commit=False)
+        event.organizer = request.user
+        event.save()
+        form.save_m2m()
+            
+            # Handle attendees field
+        attendee_ids = request.POST.getlist('attendees')
+        event.attendees.set(attendee_ids)
+    else:
+        form = EventForm()
+
     return render(request, 'create_event.html', {
+        'form': form,
         'event_categories': event_categories,
         'attendees': attendees,  # Pass the attendees to the template context
         'active_page': 'events'  # Set the active_page context variable to 'events'
     })
 
-def create_event(request):
-    if request.method == 'POST':
-        form = EventForm(request.POST, request.FILES)
-        if form.is_valid():
-            event = form.save(commit=False)
-            event.organizer = request.user
-            event.save()
-            form.save_m2m()  # Save many-to-many relationships
-            # Handle attendees field
-            attendee_ids = request.POST.getlist('attendees')  # Get selected attendee IDs
-            event.attendees.set(attendee_ids)  # Add attendees to the event
-            return JsonResponse({'success': True, 'message': 'Event created successfully.'})
-        else:
-            return JsonResponse({'success': False, 'message': 'Failed to create event. Please check the form data.'}, status=400)
-    else:
-        form = EventForm()
-        return render(request, 'create_event.html', {'form': form})
-    
 def edit_event_view(request, event_id):
     # Retrieve existing event
     event = get_object_or_404(Event, id=event_id)
@@ -72,7 +68,7 @@ def edit_event_view(request, event_id):
         form = EditEventForm(request.POST, instance=event)
         if form.is_valid():
             form.save()
-            return redirect('success_page')
+
     else:
         # Pre-populate form fields with event data
         form = EditEventForm(instance=event)
@@ -88,65 +84,29 @@ def event_categories_view(request):
     all_categories = EventCategory.objects.all()
     return render(request, 'event_categories.html', {'active_page': 'event_categories', 'all_categories': all_categories})
 
-def create_category_view(request):
-    if request.method == 'POST':
-        form = EventCategoryForm(request.POST)
-        if form.is_valid():
-            form.save()
-            # Redirect to a success page or another view
-    else:
-        form = EventCategoryForm()
-    
-    # Set the active page context variable
-    active_page = 'event_categories'
-    
-    return render(request, 'create_category.html', {'form': form, 'active_page': active_page})
-
 def create_category(request):
     if request.method == 'POST':
         form = EventCategoryForm(request.POST)
         if form.is_valid():
-            with transaction.atomic():
-                event_category = form.save(commit=False)
-                event_category.save()
-            event_data = {
-                'name': event_category.name,
-                'description': event_category.description,
-
-            }
-            return JsonResponse(event_data, status=200)
-        else:
-            return JsonResponse({'error': 'Invalid form data'}, status=400)
-    else:
-        form = EventForm()
-    return render(request, 'create_category.html', {'form': form})
-
-def edit_category_view(request, category_id):
-    category = get_object_or_404(EventCategory, id=category_id)
-    if request.method == 'POST':
-        form = EventCategoryForm(request.POST, instance=category)
-        if form.is_valid():
             form.save()
-            # Redirect to a success page or another view
     else:
-        form = EventCategoryForm(instance=category)
+        form = EventCategoryForm()
+
     active_page = 'event_categories'
-    return render(request, 'edit_category.html', {'form': form, 'category': category, 'active_page': active_page})
+    return render(request, 'create_category.html', {'form': form, 'active_page': active_page})
 
 def edit_category(request, category_id):
     category = get_object_or_404(EventCategory, id=category_id)
     if request.method == 'POST':
         form = EventCategoryForm(request.POST, instance=category)
         if form.is_valid():
-            updated_category = form.save()
-            messages.success(request, 'Category updated successfully.')  # Add success message
-            return redirect('admin_panel:edit_category', category_id=category_id)  # Redirect back to edit page
-        else:
-            messages.error(request, 'Failed to update category. Please check the form data.')  # Add error message
+            form.save()
+            # Redirect to a success page or another view
     else:
         form = EventCategoryForm(instance=category)
     active_page = 'event_categories'
     return render(request, 'edit_category.html', {'form': form, 'category': category, 'active_page': active_page})
+
     
 def delete_category(request, category_id):
     category = get_object_or_404(EventCategory, id=category_id)
@@ -212,38 +172,30 @@ def edit_user_view(request, user_id):
     return render(request, 'edit_user.html', {'form': form, 'active_page': active_page})
 
 
-
-
 def event_organizers_view(request):
+    organizers_with_events = {}  # Initialize an empty dictionary to store organizers and their events
     organizers = EventOrganizer.objects.all()
-
-    # Create a dictionary to store the events organized by each organizer
-    organizers_with_events = {}
     for organizer in organizers:
-        # Get the events organized by the current organizer
-        organized_events = organizer.events_organized.all()
-        organizers_with_events[organizer] = organized_events
-
+        # Retrieve events organized by the organizer
+        events = organizer.events_organized.all()
+        organizers_with_events[organizer] = events
     context = {
         'organizers_with_events': organizers_with_events,
-        'active_page': 'event_organizers'  # Move the 'active_page' key-value pair to the context dictionary
     }
-
-    return render(request, 'event_organizers.html', context)  # Pass the context dictionary directly
-
-def create_organizer_view(request):
+    return render(request, 'event_organizers.html', context)
+def create_organizer(request):
     if request.method == 'POST':
         form = EventOrganizerForm(request.POST)
         if form.is_valid():
             form.save()
-            # Redirect to a success page or another view
-            return redirect('success_url')
+            return JsonResponse({'success': 'Organizer created successfully.'}, status=200)
+        else:
+            return JsonResponse({'error': 'Failed to create organizer. Please check the form data.'}, status=400)
     else:
         form = EventOrganizerForm()
 
     active_page = 'event_organizers'
     return render(request, 'create_organizer.html', {'form': form, 'active_page': active_page})
-
 def edit_organizer_view(request, organizer_id):
     organizer = get_object_or_404(EventOrganizer, id=organizer_id)
 

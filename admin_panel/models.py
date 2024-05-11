@@ -31,8 +31,14 @@ class Event(models.Model):
         return Event.objects.filter(date_time__lt=timezone.now())
 
 class EventOrganizer(models.Model):
+    STATUS_CHOICES = (
+        ('Pending', 'Pending'),
+        ('Approved', 'Approved'),
+        ('Rejected', 'Rejected'),
+    )
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     events_organized = models.ManyToManyField(Event, related_name='organizers')
+    organizer_status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
 
     def __str__(self):
         return self.user.username

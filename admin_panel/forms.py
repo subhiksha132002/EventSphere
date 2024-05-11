@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import Event,EventCategory,CustomUser
+from .models import Event,EventCategory,CustomUser,EventOrganizer
 
 class EventForm(forms.ModelForm):
     attendees = forms.ModelMultipleChoiceField(queryset=CustomUser.objects.all(), required=False)  # Add attendees field
@@ -38,7 +38,7 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'email', 'date_joined', 'user_type', 'events_attending']
+        fields = ['first_name', 'last_name', 'email', 'date_joined', 'user_type', 'events_attending','status']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -75,9 +75,10 @@ class EventOrganizerForm(UserCreationForm):
             user.save()
             event = self.cleaned_data.get('events')
             if event:
-                event.organizer = user
-                event.save()
+                organizer = EventOrganizer.objects.create(user=user)
+                organizer.events_organized.add(event)
         return user
+
     
 class EditOrganizerForm(forms.ModelForm):
     class Meta:

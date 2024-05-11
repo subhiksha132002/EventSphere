@@ -1,8 +1,16 @@
-{% extends "base.html" %} {% load static %} {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/create_event.css' %}" />
-{% endblock %} {% block content %}
+{% extends "create_base.html" %} {% load static %} {% block content %}
 <div class="create-event">
   <h3>Create Event</h3>
+
+  <!-- Display messages -->
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
   <form
     id="create-event-form"
     method="post"
@@ -61,9 +69,7 @@
         </select>
       </div>
     </div>
-    <button type="submit" id="submit-btn">
-      <a href="{% url 'admin_panel:create_event_submit' %}">Create</a>
-    </button>
+    <button type="submit" id="submit-btn">Create</button>
   </form>
 </div>
 {% endblock %}
