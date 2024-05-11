@@ -1,6 +1,7 @@
 from django.db import models
 from accounts.models import CustomUser
 from django.utils import timezone
+from phonenumber_field.modelfields import PhoneNumberField
 
 class EventCategory(models.Model):
     name = models.CharField(max_length=100)
@@ -37,8 +38,9 @@ class EventOrganizer(models.Model):
         ('Rejected', 'Rejected'),
     )
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    events_organized = models.ManyToManyField(Event, related_name='organizers')
-    organizer_status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
+    events_organized = models.ManyToManyField('admin_panel.Event', related_name='organizers', blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
+    phone_number = PhoneNumberField(blank=True)
 
     def __str__(self):
         return self.user.username

@@ -532,3 +532,31 @@ button[type="submit"]:hover {
     min-width: 420px;
   }
 }
+
+.user-type-btn,
+.status-btn {
+  border-radius: 5px;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  font-weight: bold;
+}
+
+.user-type-btn {
+  font-style: var(--nunito);
+}
+
+.status-btn {
+  font-style: var(--nunito);
+}
+
+.user-type-btn:focus,
+.status-btn:focus {
+  outline: none;
+}
+
+.user-type-btn:hover,
+.status-btn:hover {
+  opacity: 0.8;
+}

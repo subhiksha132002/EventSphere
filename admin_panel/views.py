@@ -129,31 +129,35 @@ def users_view(request):
     
     return render(request, 'attendees.html', context)
 
-def create_user_view(request):
-    events = Event.objects.all()
+def create_user(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            events_attending = form.cleaned_data.get('events_attending')
-            user.save()
-            user.events_attending.set(events_attending)
-            success_message = 'User created successfully.'
-            return JsonResponse({'success': success_message}, status=200)
+            if user.username:  # Ensure username is provided and not empty
+                events_attending = form.cleaned_data.get('events_attending')
+                user.save()
+                user.events_attending.set(events_attending)
+                success_message = 'User created successfully.'
+                messages.success(request, success_message)
+                return redirect('admin_panel:users')
+            else:
+                error_message = 'Username is required.'
+                messages.error(request, error_message)
         else:
             error_message = 'Failed to create user. Please check the form data.'
-            return JsonResponse({'error': error_message}, status=400)
+            print(form.errors)  # Print form errors for debugging
+            messages.error(request, error_message)
     else:
-        form = UserForm(initial={'events_attending': events})
-        active_page = 'users'
-        context = {
-            'form': form,
-            'active_page': active_page,
-            'events': events,
-        }
-        return render(request, 'create_attendee.html', context)
-      
-def edit_user_view(request, user_id):
+        queryset = Event.objects.all()  # Example queryset
+        form = UserForm(queryset=queryset)  # Pass the queryset to the form
+
+    context = {
+        'form': form,
+        'active_page': 'users',
+    }
+    return render(request, 'create_attendee.html', context)
+def edit_user(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
 
     if request.method == 'POST':
@@ -163,14 +167,18 @@ def edit_user_view(request, user_id):
             events_attending = form.cleaned_data.get('events_attending')
             user.save()
             user.events_attending.set(events_attending)
-            # Redirect to a success page or another view
-            return redirect('success_url')
+            success_message = 'User updated successfully.'
+            messages.success(request, success_message)
+            return redirect('admin_panel:users')
     else:
         form = EditUserForm(instance=user)
 
-    active_page = 'users'
-    return render(request, 'edit_user.html', {'form': form, 'active_page': active_page})
-
+    context = {
+        'form': form,
+        'user': user,
+        'active_page': 'users'
+    }
+    return render(request, 'edit_user.html', context)
 
 def event_organizers_view(request):
     organizers_with_events = {}  # Initialize an empty dictionary to store organizers and their events

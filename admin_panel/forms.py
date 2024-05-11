@@ -31,6 +31,23 @@ class EditCategoryForm(forms.ModelForm):
 
 class UserForm(forms.ModelForm):
     events_attending = forms.ModelMultipleChoiceField(
+        queryset=Event.objects.none(),  # Set an empty queryset initially
+        widget=forms.SelectMultiple(attrs={'class': 'form-control'}),
+        required=False
+    )
+    user_status = forms.ChoiceField(choices=CustomUser.USER_STATUS_CHOICES)
+
+    class Meta:
+        model = CustomUser
+        fields = ['first_name', 'username', 'email', 'date_joined', 'user_type', 'user_status', 'events_attending']
+
+    def __init__(self, *args, **kwargs):
+        queryset = kwargs.pop('queryset', Event.objects.none())  # Set a default empty queryset
+        super().__init__(*args, **kwargs)
+        self.fields['events_attending'].queryset = queryset
+
+class EditUserForm(forms.ModelForm):
+    events_attending = forms.ModelMultipleChoiceField(
         queryset=Event.objects.all(),
         widget=forms.SelectMultiple(attrs={'class': 'form-control'}),
         required=False
@@ -38,29 +55,13 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'email', 'date_joined', 'user_type', 'events_attending','status']
+        fields = ['first_name', 'last_name', 'email', 'date_joined', 'user_type', 'user_status', 'events_attending']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if self.instance.pk:
             self.fields['events_attending'].initial = self.instance.events_attending.all()
             
-class EditUserForm(forms.ModelForm):
-    events_attending = forms.ModelChoiceField(
-        queryset=Event.objects.all(),
-        widget=forms.SelectMultiple(attrs={'class': 'form-control'}),
-        required=False
-    )
-
-    class Meta:
-        model = CustomUser
-        fields = ['first_name', 'last_name', 'email', 'date_joined', 'user_type', 'events_attending']
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if self.instance.pk:
-            self.fields['events_attending'].initial = self.instance.events_attending.all()
-
 class EventOrganizerForm(UserCreationForm):
     email = forms.EmailField()
     events = forms.ModelChoiceField(queryset=Event.objects.all(), empty_label="Select Event", required=False)

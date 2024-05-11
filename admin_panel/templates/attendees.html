@@ -11,8 +11,8 @@
           href="{% url 'admin_panel:create_user' %}"
           class="btn-create-attendee"
         >
-          <i class="bx bxs-plus-circle"></i> Create User</a
-        >
+          <i class="bx bxs-plus-circle"></i> Create User
+        </a>
       </div>
       <table>
         <thead>
@@ -23,26 +23,58 @@
             <th>Date Joined</th>
             <th>User Type</th>
             <th>Events Registered</th>
+            <th>Status</th>
             <th>Action</th>
           </tr>
         </thead>
-        {% for user in users %}
-    <tr>
-      <td>{{ user.first_name }}</td>
-      <td>{{ user.last_name }}</td>
-      <td>{{ user.email }}</td>
-      <td>{{ user.date_joined|date:"Y-m-d" }}</td>
-      <td>{{ user.user_type }}</td>
-      <td>
-        <ul>
-          {% for event in user.events_attending.all %}
-          <li>{{ event.name }}</li>  <!-- Assuming Event model has a name field -->
-          {% endfor %}
-        </ul>
-      </td>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{ user.first_name }}</td>
+            <td>{{ user.last_name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.date_joined|date:"Y-m-d" }}</td>
+            <td>
+              <button
+                class="user-type-btn"
+                style="background-color: 
+              {% if user.user_type == 'admin' %} green; 
+              {% elif user.user_type == 'regular' %} orange; 
+              {% else %} blue; 
+              {% endif %}"
+              >
+                {{ user.user_type }}
+              </button>
+            </td>
+            <td>
+              {% if user.events_attending.exists %}
+              <ul>
+                {% for event in user.events_attending.all %}
+                <li>{{ event.name }}</li>
+                {% endfor %}
+              </ul>
+              {% else %}
+              <i>Not Registered</i>
+              {% endif %}
+            </td>
+            <td>
+              <button
+                class="status-btn"
+                style="background-color: 
+              {% if user.status == 'active' %} green; 
+              {% else %} red; 
+              {% endif %}"
+              >
+                {{ user.status }}
+              </button>
+            </td>
             <td>
               <!-- Action buttons for each event -->
-              <a href="{% url 'admin_panel:edit_user' user.id %}" class="action-btn" title="Edit">
+              <a
+                href="{% url 'admin_panel:edit_user' user.id %}"
+                class="action-btn"
+                title="Edit"
+              >
                 <i class="bx bx-edit"></i>
               </a>
               <a href="#" class="action-btn" title="Delete">

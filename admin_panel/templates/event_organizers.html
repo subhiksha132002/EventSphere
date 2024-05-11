@@ -19,8 +19,9 @@
             <th>Name</th>
             <th>Username</th>
             <th>Email</th>
-            <th>Event Organized</th>
+            <th>Phone Number</th>
             <th>Status</th>
+            <th>Event Organized</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -30,6 +31,7 @@
             <td>{{ organizer.user.first_name }}</td>
             <td>{{ organizer.user.username }}</td>
             <td>{{ organizer.user.email }}</td>
+            <td>{{ organizer.phone_number }}</td>
             <td>{{ organizer.status }}</td>
             <td>
               {% for event in events %} {{ event.name }}<br />
