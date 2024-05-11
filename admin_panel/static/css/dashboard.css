@@ -551,12 +551,52 @@ button[type="submit"]:hover {
   font-style: var(--nunito);
 }
 
+.status-btn pending {
+  background-color: orange;
+  font-style: var(--nunito);
+}
+
+.status-btn approved {
+  background-color: green;
+  font-style: var(--nunito);
+}
+
+.status-btn rejected {
+  background-color: red;
+  font-style: var(--nunito);
+}
+.status-btn pending:focus,
+.status-btn approved:focus,
+.status-btn rejected:focus,
 .user-type-btn:focus,
 .status-btn:focus {
   outline: none;
 }
 
+.status-btn pending:hover,
+.status-btn approved:hover,
+.status-btn rejected:hover,
 .user-type-btn:hover,
 .status-btn:hover {
   opacity: 0.8;
+}
+
+.status-active {
+  background-color: #008000;
+}
+
+.status-inactive {
+  background-color: #db504a;
+}
+
+.user-type-admin {
+  background-color: #008000;
+}
+
+.user-type-regular {
+  background-color: orange;
+}
+
+.user-type-default {
+  background-color: #3c91e6;
 }

@@ -157,6 +157,7 @@ def create_user(request):
         'active_page': 'users',
     }
     return render(request, 'create_attendee.html', context)
+
 def edit_user(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
 
@@ -187,35 +188,73 @@ def event_organizers_view(request):
         # Retrieve events organized by the organizer
         events = organizer.events_organized.all()
         organizers_with_events[organizer] = events
+        active_page = 'event_organizers'
     context = {
         'organizers_with_events': organizers_with_events,
+        'active_page': active_page,
     }
     return render(request, 'event_organizers.html', context)
+
 def create_organizer(request):
     if request.method == 'POST':
         form = EventOrganizerForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save(commit=False)
+            user.user_type = 'organizer'
+            user.save()
+
+            # Create or update the EventOrganizer instance
+            events = form.cleaned_data.get('events')
+            phone_number = form.cleaned_data.get('phone_number')
+            organizer, created = EventOrganizer.objects.get_or_create(user=user)
+            if events:
+                organizer.events_organized.set(events)
+            organizer.phone_number = phone_number
+            organizer.save()
+
             return JsonResponse({'success': 'Organizer created successfully.'}, status=200)
         else:
-            return JsonResponse({'error': 'Failed to create organizer. Please check the form data.'}, status=400)
+            return JsonResponse({'error': form.errors}, status=400)
     else:
         form = EventOrganizerForm()
-
-    active_page = 'event_organizers'
-    return render(request, 'create_organizer.html', {'form': form, 'active_page': active_page})
-def edit_organizer_view(request, organizer_id):
-    organizer = get_object_or_404(EventOrganizer, id=organizer_id)
+        active_page = 'event_organizers'
+        return render(request, 'create_organizer.html', {'form': form, 'active_page': active_page})
+    
+def edit_organizer(request, organizer_id):
+    user = get_object_or_404(CustomUser, id=organizer_id)
+    organizer = EventOrganizer.objects.get(user=user)
 
     if request.method == 'POST':
-        form = EditOrganizerForm(request.POST, instance=organizer.user)
+        form = EditOrganizerForm(request.POST, instance=user)
         if form.is_valid():
-            form.save()
-            # Redirect to a success page or another view
-            return redirect('success_url')
+            user = form.save()
+            organizer.phone_number = request.POST.get('phone_number')
+            organizer.save()
+            return redirect('admin_panel:event_organizers')
     else:
-        form = EditOrganizerForm(instance=organizer.user)
+        form = EditOrganizerForm(instance=user, initial={'phone_number': organizer.phone_number})
 
     active_page = 'event_organizers'
-    return render(request, 'edit_organizer.html', {'form': form, 'active_page': active_page})
+    context = {
+        'form': form,
+        'user': user,
+        'active_page': active_page,
+    }
+    return render(request, 'edit_organizer.html', context)
 
+def delete_organizer(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    organizer = EventOrganizer.objects.get(user=user)
+
+    if request.method == 'POST':
+        # Delete the user and associated organizer instance
+        organizer.delete()
+        user.delete()
+        return redirect('admin_panel:event_organizers')
+
+    active_page = 'event_organizers'
+    context = {
+        'user': user,
+        'active_page': active_page,
+    }
+    return render(request, 'delete_organizer.html', context)

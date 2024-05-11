@@ -32,7 +32,15 @@
             <td>{{ organizer.user.username }}</td>
             <td>{{ organizer.user.email }}</td>
             <td>{{ organizer.phone_number }}</td>
-            <td>{{ organizer.status }}</td>
+            <td>
+              {% if organizer.status == 'pending' %}
+              <button class="status-btn pending">Pending</button>
+              {% elif organizer.status == 'approved' %}
+              <button class="status-btn approved">Approved</button>
+              {% elif organizer.status == 'rejected' %}
+              <button class="status-btn rejected">Rejected</button>
+              {% endif %}
+            </td>
             <td>
               {% for event in events %} {{ event.name }}<br />
               {% endfor %}
@@ -47,7 +55,11 @@
                 <i class="bx bx-edit"></i>
               </a>
               <!-- Delete option with tooltip -->
-              <a href="#" class="action-btn" title="Delete">
+              <a
+                href="{% url 'admin_panel:edit_organizer' organizer.id %}"
+                class="action-btn"
+                title="Delete"
+              >
                 <i class="bx bx-trash"></i>
               </a>
             </td>
