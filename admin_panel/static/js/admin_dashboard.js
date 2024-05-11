@@ -91,3 +91,22 @@ function showSuccessModal(message) {
   successMessage.textContent = message;
   successModal.style.display = "block";
 }
+
+$(document).ready(function () {
+  // Event listener for clicking the delete button/link
+  $(".delete-event").click(function (e) {
+    e.preventDefault(); // Prevent the default action (following the link)
+
+    // Show the confirmation modal
+    $("#confirmationModal").modal("show");
+
+    // Get the delete URL from the href attribute of the anchor tag
+    var deleteUrl = $(this).attr("href");
+
+    // Event listener for clicking the OK button in the modal
+    $("#confirmDelete").one("click", function () {
+      // Redirect to the delete URL
+      window.location.href = deleteUrl;
+    });
+  });
+});

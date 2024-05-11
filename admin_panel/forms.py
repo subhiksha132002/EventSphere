@@ -61,21 +61,6 @@ class EditUserForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if self.instance.pk:
             self.fields['events_attending'].initial = self.instance.events_attending.all()
-            
-from django import forms
-from .models import CustomUser, EventOrganizer, Event
-
-class EditOrganizerBasicForm(forms.ModelForm):
-    class Meta:
-        model = CustomUser
-        fields = ['first_name', 'username', 'email']
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if self.instance.pk:
-            self.fields['first_name'].initial = self.instance.first_name
-            self.fields['username'].initial = self.instance.username
-            self.fields['email'].initial = self.instance.email
 
 class EventOrganizerForm(forms.ModelForm):
     events_organized = forms.ModelMultipleChoiceField(
@@ -88,12 +73,18 @@ class EventOrganizerForm(forms.ModelForm):
     class Meta:
         model = EventOrganizer
         fields = ['phone_number', 'status', 'events_organized']
-
 class EditOrganizerForm(forms.ModelForm):
     class Meta:
         model = EventOrganizer
-        fields = ['status', 'phone_number']
+        fields = ['phone_number', 'status', 'events_organized']
+        widgets = {
+            'events_organized': forms.SelectMultiple(attrs={'class': 'form-control'}),
+            'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
+        }
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(EditOrganizerForm, self).__init__(*args, **kwargs)
+        self.fields['events_organized'].queryset = Event.objects.all()
+
 

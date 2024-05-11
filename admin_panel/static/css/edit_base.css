@@ -222,210 +222,14 @@ body {
 /* NAVBAR */
 
 /* MAIN */
-#content main {
-  width: 100%;
-  padding: 36px 24px;
-  font-family: var(--nunito);
-  font-weight: 800;
-  max-height: calc(100vh - 56px);
-  overflow-y: auto;
-}
-#content main .head-title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  grid-gap: 16px;
-  flex-wrap: wrap;
-}
-#content main .head-title .left h1 {
-  font-size: 36px;
-  font-weight: 600;
-  margin-bottom: 10px;
-  color: var(--dark);
-}
-#content main .head-title .left .breadcrumb {
-  display: flex;
-  align-items: center;
-  grid-gap: 16px;
-}
-#content main .head-title .left .breadcrumb li {
-  color: var(--dark);
-}
-#content main .head-title .left .breadcrumb li a {
-  color: var(--dark-grey);
-  pointer-events: none;
-}
-#content main .head-title .left .breadcrumb li a.active {
-  color: var(--blue);
-  pointer-events: unset;
-}
 
-#content main .box-info {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  grid-gap: 24px;
-  margin-top: 36px;
-}
-#content main .box-info li {
-  padding: 24px;
-  background: var(--light);
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  grid-gap: 24px;
-}
-#content main .box-info li .bx {
-  width: 80px;
-  height: 80px;
-  border-radius: 10px;
-  font-size: 36px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#content main .box-info li:nth-child(1) .bx {
-  background: var(--light-blue);
-  color: var(--blue);
-}
-#content main .box-info li:nth-child(2) .bx {
-  background: var(--light-yellow);
-  color: var(--yellow);
-}
-#content main .box-info li:nth-child(3) .bx {
-  background: var(--light-orange);
-  color: var(--orange);
-}
-#content main .box-info li:nth-child(4) .bx {
-  background: var(--light-green);
-  color: var(--green);
-}
-#content main .box-info li .text h3 {
-  font-size: 24px;
-  font-weight: 600;
-  color: var(--dark);
-}
-
-#content main .box-info li .text {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-#content main .box-info li .text p {
-  color: var(--dark);
-}
-
-#content main .table-data {
-  display: flex;
-  flex-wrap: wrap;
-  grid-gap: 24px;
-  margin-top: 24px;
-  width: 100%;
-  color: var(--dark);
-}
-#content main .table-data > div {
-  border-radius: 20px;
-  background: var(--light);
-  padding: 24px;
-  overflow-x: auto;
-}
-#content main .table-data .head {
-  display: flex;
-  align-items: center;
-  grid-gap: 16px;
-  margin-bottom: 24px;
-}
-#content main .table-data .head h3 {
-  margin-right: auto;
-  font-size: 24px;
-  font-weight: 800;
-}
-#content main .table-data .head .bx {
-  cursor: pointer;
-}
-
-#content main .table-data .events {
-  flex-grow: 1;
-  flex-basis: 500px;
-}
-#content main .table-data table {
-  width: 100%;
-  border-collapse: collapse;
-}
-#content main .table-data table th {
-  padding-bottom: 12px;
-  font-size: 15px;
-  text-align: center;
-  border-bottom: 1px solid var(--grey);
-  font-family: "nunito"; /* Specify your desired font */
-  font-weight: 600; /* Adjust font weight if needed */
-  color: var(--dark);
-}
-#content main .table-data table td {
-  padding: 16px 0;
-  font-size: 16px; /* Decrease font size */
-  font-weight: 500;
-  text-align: center; /* Center-align column content */
-}
-#content main .table-data table tr td:first-child {
-  display: flex;
-  align-items: center;
-  grid-gap: 12px;
-  padding-left: 6px;
-}
-#content main .table-data .events table th {
-  padding: 12px 20px; /* Adjust padding as needed */
-  font-size: 16px; /* Adjust font size as needed */
-  text-align: center; /* Center-align table headings */
-}
-#content main .table-data table tbody tr:hover {
-  background: var(--grey);
-}
-
-#content main .table-data .events .head .btn-create-attendee,
-#content main .table-data .events .head .btn-create-event,
-#content main .table-data .events .head .btn-create-category,
-#content main .table-data .events .head .btn-create-organizer {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-  margin-bottom: 20px;
-}
-
-/* Hover state for create buttons with high specificity */
-#content main .table-data .events .head .btn-create-attendee:hover,
-#content main .table-data .events .head .btn-create-event:hover,
-#content main .table-data .events .head .btn-create-category:hover,
-#content main .table-data .events .head .btn-create-organizer:hover {
-  background-color: #0056b3;
-}
-
-/* Icon style for create buttons with high specificity */
-#content main .table-data .events .head .btn-create-attendee i,
-#content main .table-data .events .head .btn-create-event i,
-#content main .table-data .events .head .btn-create-category i,
-#content main .table-data .events .head .btn-create-organizer i {
-  margin-right: 5px;
-}
-
-/* Styles for action buttons with high specificity */
-#content main .table-data .events table tbody tr td .action-btn i {
-  font-size: 20px;
-  color: black;
-}
-
-.edit_base {
+#content main .create-event {
   width: 100%;
   margin: 0 auto;
   text-align: center;
 }
 
-.edit_base h3 {
+.create-event h3 {
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -450,6 +254,7 @@ button[type="submit"]:hover {
 .form-group {
   display: flex;
   align-items: center;
+  align-items: flex-start;
   margin-bottom: 20px;
 }
 
@@ -474,9 +279,10 @@ button[type="submit"]:hover {
 }
 
 .form-group .input-field {
-  flex-grow: 0;
-  width: 50%; /* Adjust this value to your desired width */
+  flex-grow: 10; /* Change flex-grow to 0 to restrict width expansion */
+  width: 50%; /* Set a specific width for the input fields, adjust as needed */
 }
+
 /* Search input */
 #search-input,
 #filter-select {

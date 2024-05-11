@@ -430,6 +430,14 @@ body {
   margin-bottom: 20px;
 }
 
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
+  height: 100vh; /* Set container height to viewport height for full-screen effect */
+}
+
 button[type="submit"] {
   background-color: #007bff; /* Blue background color */
   color: #fff; /* White text color */
@@ -462,6 +470,7 @@ button[type="submit"]:hover {
 
 .form-group .input-field {
   flex-grow: 1;
+  width: 50px;
 }
 
 .form-group input,
@@ -593,7 +602,7 @@ button[type="submit"]:hover {
   background-color: #008000;
 }
 
-.user-type-regular {
+.user-type-attendee {
   background-color: orange;
 }
 

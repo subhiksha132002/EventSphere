@@ -4,12 +4,13 @@ from django.db import transaction
 from django.contrib.auth.decorators import login_required
 from .models import Event, EventCategory, EventOrganizer
 from accounts.models import CustomUser
-from .forms import EventForm,EditEventForm,EventCategoryForm,EditCategoryForm,UserForm,EditUserForm,EventOrganizerForm,EditOrganizerForm,EditOrganizerBasicForm
+from .forms import EventForm,EditEventForm,EventCategoryForm,EditCategoryForm,UserForm,EditUserForm,EventOrganizerForm,EditOrganizerForm
 from django.utils import timezone
 from django.contrib import messages
 from django.urls import reverse
 from django.http import JsonResponse,HttpResponseRedirect
 from django.contrib.auth import get_user_model
+from django.views.generic import View
 
 # Views for Admin Dashboard
 def dashboard_view(request):
@@ -29,7 +30,7 @@ def dashboard_view(request):
         'latest_events': latest_events,
         'active_page': 'dashboard'
     }
-    return render(request, 'base.html',context)
+    return render(request, 'index.html',context)
 
 # Function to retrieve event page
 def events_view(request):
@@ -77,6 +78,10 @@ def edit_event_view(request, event_id):
     context = {'form': form, 'event': event, 'active_page': 'events'}
     return render(request, 'edit_event.html', context)
 
+def delete_event(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+    event.delete()
+    return redirect('admin_panel:events')  # Redirect to the events page after deletion
 
 
 # Function to retrieve event category page
@@ -110,12 +115,9 @@ def edit_category(request, category_id):
     
 def delete_category(request, category_id):
     category = get_object_or_404(EventCategory, id=category_id)
-    if request.method == 'POST':
-        category.delete()
-        # Redirect to the event categories list or another appropriate page
-        return redirect(reverse('admin_panel:event_categories'))
-    active_page = 'event_categories'
-    return render(request, 'delete_category.html', {'category': category, 'active_page': active_page})
+    category.delete()
+    # Redirect to a success page or another appropriate URL
+    return redirect('admin_panel:event_categories')
 
 # Function to retrieve user page
 def users_view(request):
@@ -181,6 +183,11 @@ def edit_user(request, user_id):
     }
     return render(request, 'edit_user.html', context)
 
+def delete_user(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    user.delete()
+    return redirect('admin_panel:users')
+
 def event_organizers_view(request):
     organizers_with_events = {}  # Initialize an empty dictionary to store organizers and their events
     organizers = EventOrganizer.objects.all()
@@ -226,40 +233,30 @@ def create_organizer(request):
         active_page = 'event_organizers'
         return render(request, 'create_organizer.html', {'form': form, 'active_page': active_page})
             
-def edit_organizer(request, user_id):
-    user = get_object_or_404(CustomUser, id=user_id)
-    organizer = get_object_or_404(EventOrganizer, user=user)
+def edit_organizer(request, organizer_id):
+    organizer = get_object_or_404(EventOrganizer, id=organizer_id)
 
     if request.method == 'POST':
-        form = EditOrganizerBasicForm(request.POST, instance=user)
+        form = EditOrganizerForm(request.POST, instance=organizer)
         if form.is_valid():
-            user = form.save()
-            organizer.user = user  # Update the user field in the EventOrganizer instance
+            form.save()
+            organizer.phone_number = form.cleaned_data['phone_number']  # Update phone number
             organizer.save()
-            messages.success(request, 'Organizer details updated successfully.')
             return redirect('admin_panel:event_organizers')
     else:
-        form = EditOrganizerBasicForm(instance=user)
-
-    context = {
-        'form': form,
-        'organizer': organizer,
-        'active_page': 'event_organizers'
-    }
-    return render(request, 'edit_organizer.html', context)
-def delete_organizer(request, user_id):
-    user = get_object_or_404(CustomUser, id=user_id)
-    organizer = EventOrganizer.objects.get(user=user)
-
-    if request.method == 'POST':
-        # Delete the user and associated organizer instance
-        organizer.delete()
-        user.delete()
-        return redirect('admin_panel:event_organizers')
+        form = EditOrganizerForm(instance=organizer)
 
     active_page = 'event_organizers'
     context = {
-        'user': user,
+        'form': form,
+        'organizer': organizer,
         'active_page': active_page,
     }
-    return render(request, 'delete_organizer.html', context)
+    return render(request, 'edit_organizer.html', context)
+
+
+def delete_organizer(request, organizer_id):
+    organizer = get_object_or_404(EventOrganizer, id=organizer_id)
+    organizer.delete()
+    return redirect('admin_panel:event_organizers')
+

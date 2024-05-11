@@ -36,7 +36,7 @@
             <td>{{ user.date_joined|date:"Y-m-d" }}</td>
             <td>
               <button
-                class="user-type-btn {% if user.user_type == 'admin' %}user-type-admin{% endif %} {% if user.user_type == 'regular' %}user-type-regular{% endif %} {% if user.user_type != 'admin' and user.user_type != 'regular' %}user-type-default{% endif %}"
+                class="user-type-btn {% if user.user_type == 'admin' %}user-type-admin{% endif %} {% if user.user_type == 'attendee' %}user-type-attendee{% endif %} {% if user.user_type != 'admin' and user.user_type != 'attendee' %}user-type-default{% endif %}"
               >
                 {{ user.user_type }}
               </button>
@@ -68,7 +68,11 @@
               >
                 <i class="bx bx-edit"></i>
               </a>
-              <a href="#" class="action-btn" title="Delete">
+              <a
+                href="{% url 'admin_panel:delete_user' user.id %}"
+                class="action-btn"
+                title="Delete"
+              >
                 <i class="bx bx-trash"></i>
               </a>
             </td>

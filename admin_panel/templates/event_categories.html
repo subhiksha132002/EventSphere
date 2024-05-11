@@ -41,7 +41,11 @@
                 <i class="bx bx-edit"></i>
               </a>
               <!-- Delete option with tooltip -->
-              <a href="#" class="action-btn" title="Delete">
+              <a
+                href="{% url 'admin_panel:delete_category' category.id %}"
+                class="action-btn"
+                title="Delete"
+              >
                 <i class="bx bx-trash"></i>
               </a>
             </td>

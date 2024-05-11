@@ -98,7 +98,7 @@
             id="edit-base-form"
             method="post"
             enctype="multipart/form-data"
-            action="{% url 'admin_panel:edit_organizer' organizer.user.id %}"
+            action="{% url 'admin_panel:edit_organizer' organizer.id %}"
           >
             {% csrf_token %} {% for field in form %}
             <div class="form-group">
