@@ -19,7 +19,7 @@
     />
     <!-- My CSS -->
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/organizer_base.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/organizer_attendee.css' %}" />
   </head>
   <body>
     <!-- SIDEBAR -->
@@ -42,7 +42,7 @@
           </a>
         </li>
         <li class="{% if active_page == 'attendees' %}active{% endif %}">
-          <a href="{% url 'event_organizer:attendees' %}">
+          <a href="#">
             <i class="bx bxs-category"></i>
             <span class="text">Attendees</span>
           </a>
@@ -82,79 +82,35 @@
       <!-- MAIN -->
       {% block content %}
       <main>
-        <div class="head-title">
-          <div class="left">
-            <h1>Dashboard</h1>
-            <ul class="breadcrumb">
-              <li>
-                <a href="#">Dashboard</a>
-              </li>
-              <li><i class="bx bx-chevron-right"></i></li>
-              <li>
-                <a class="active" href="#">Home</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <ul class="box-info">
-          <li>
-            <i class="bx bxs-calendar-event"></i>
-            <span class="text">
-              <h3>{{ total_events }}</h3>
-              <p>Events</p>
-            </span>
-          </li>
-          <li>
-            <i class="bx bxs-group"></i>
-            <span class="text">
-              <h3>{{ total_attendees}}</h3>
-              <p>Total Attendees</p>
-            </span>
-          </li>
-          <li>
-            <i class="bx bxs-check-square"></i>
-            <span class="text">
-              <h3>{{ total_completed_events }}</h3>
-              <p>Completed Events</p>
-            </span>
-          </li>
-        </ul>
-
         <div class="table-data">
-          <div class="events">
+          <div class="attendees">
             <div class="head">
-              <h3>Events</h3>
-              <input type="text" id="search-input" placeholder="Search..." />
-              <select id="filter-select">
-                <option value="">All</option>
-                <option value="department">Department Events</option>
-                <option value="college">College Events</option>
-                <option value="workshops">Workshops</option>
-              </select>
-              <button id="clear-filter">Clear Filter</button>
+              <h3>Attendees</h3>
             </div>
             <table>
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Description</th>
-                  <th>Event Category</th>
-                  <th>Location</th>
-                  <th>Date</th>
-                  <th>Ticket Type</th>
-                  <th>Ticket Price</th>
+                  <th>Email</th>
+                  <th>Phone Number</th>
+                  <th>Event Registered</th>
+                  <th>Status</th>
                 </tr>
               </thead>
               <tbody>
-                {% for event in latest_events %}
+                {% for attendee in all_attendees %}
                 <tr>
-                  <td>{{ event.name }}</td>
-                  <td>{{ event.description }}</td>
-                  <td>{{ event.event_category.name }}</td>
-                  <td>{{ event.location }}</td>
-                  <td>{{ event.date_time }}</td>
-                  <td>{{ event.ticket_type }}</td>
-                  <td>{{ event.ticket_price }}</td>
+                  <td>{{ attendee.attendee.username }}</td>
+                  <td>{{ attendee.attendee.email }}</td>
+                  <td>{{ attendee.attendee.phone_number }}</td>
+                  <td>{{ attendee.event.name }}</td>
+                  <td>
+                    <button
+                      class="status-btn {% if attendee.status == 'not_attended' %}not-attended{% else %}attended{% endif %}"
+                    >
+                      {{ attendee.get_status_display }}
+                    </button>
+                  </td>
                 </tr>
                 {% endfor %}
               </tbody>

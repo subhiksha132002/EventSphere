@@ -24,7 +24,7 @@ def dashboard_view(request):
     }
     return render(request, 'organizer_base.html', context)
 
-# Function to retrieve event page
+# Function to retrieve events
 def events_view(request):
     all_events = Event.objects.all()
     return render(request, 'organizer_events.html', {'active_page': 'events', 'all_events': all_events})
@@ -74,3 +74,18 @@ def delete_event(request, event_id):
     event = get_object_or_404(Event, id=event_id)
     event.delete()
     return redirect('event_organizer:events')  # Redirect to the events page after deletion
+
+# Function to retrieve attendees
+def attendees_view(request):
+    # Retrieve the logged-in event organizer
+    logged_in_organizer = request.user
+
+    # Retrieve all attendees for events organized by the logged-in organizer
+    all_attendees = Attendee.objects.filter(event__organizer=logged_in_organizer)
+
+    # Pass the attendees data to the template
+    context = {
+        'all_attendees': all_attendees,
+        'active_page': 'attendees'
+    }
+    return render(request, 'organizer_attendees.html', context)
