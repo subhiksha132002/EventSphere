@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'admin_panel',
     'accounts',
+    'event_organizer',
     'debug_toolbar',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -73,7 +74,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'admin_panel/templates')
+            os.path.join(BASE_DIR, 'admin_panel/templates'),
+            os.path.join(BASE_DIR, 'event_organizer/templates')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -142,7 +144,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'admin_panel/static')
+    os.path.join(BASE_DIR, 'admin_panel/static'),
+    os.path.join(BASE_DIR, 'event_organizer/static')
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR,'static')

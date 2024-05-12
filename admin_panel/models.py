@@ -2,6 +2,7 @@ from django.db import models
 from accounts.models import CustomUser
 from django.utils import timezone
 from phonenumber_field.modelfields import PhoneNumberField
+from django.conf import settings
 
 class EventCategory(models.Model):
     name = models.CharField(max_length=100)
@@ -17,9 +18,9 @@ class Event(models.Model):
     event_category = models.ForeignKey(EventCategory, on_delete=models.CASCADE)
     location = models.CharField(max_length=255)
     date_time = models.DateTimeField()
-    image = models.ImageField(upload_to='event_images/', blank=True, null=True)  # Optional field for event images
-    organizer = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    attendees = models.ManyToManyField(CustomUser, related_name='attended_events')
+    image = models.ImageField(upload_to='event_images/', blank=True, null=True)
+    organizer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    attendees = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='attended_events')
 
     def __str__(self):
         return self.name

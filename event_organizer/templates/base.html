@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventSphere</title>
+
+    <!-- Boxicons -->
+    <link
+      href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- My CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+    {% block extra_css %}
+{% endblock %}
+  </head>
+  <body>
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+      <a href="#" class="brand">
+        <i class="fa-solid fa-calendar-days"></i>
+        <span class="text">EventSphere</span>
+      </a>
+      <ul class="side-menu top">
+        <li class="{% if active_page == 'dashboard' %}active{% endif %}">
+          <a href="{% url 'admin_panel:dashboard' %}">
+            <i class="bx bxs-dashboard"></i>
+            <span class="text">Dashboard</span>
+          </a>
+        </li>
+        <li class="{% if active_page == 'events' %}active{% endif %}">
+          <a href="{% url 'admin_panel:events' %}">
+            <i class="bx bxs-calendar-event"></i>
+            <span class="text">Events</span>
+          </a>
+        </li>
+        <li class="{% if active_page == 'event_categories' %}active{% endif %}">
+          <a href="{% url 'admin_panel:event_categories' %}">
+            <i class="bx bxs-category"></i>
+            <span class="text">Event Categories</span>
+          </a>
+        </li>
+        <li class="{% if active_page == 'users' %}active{% endif %}">
+          <a href="{% url 'admin_panel:users' %}">
+            <i class="bx bxs-user"></i>
+            <span class="text">Users</span>
+          </a>
+        </li>
+        <li class="{% if active_page == 'event_organizers' %}active{% endif %}">
+          <a href="{% url 'admin_panel:event_organizers' %}">
+            <i class="bx bxs-group"></i>
+            <span class="text">Event Organizers</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="side-menu">
+        <li>
+          <a href="#">
+            <i class="bx bxs-cog"></i>
+            <span class="text">Settings</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="logout">
+            <i class="bx bxs-log-out-circle"></i>
+            <span class="text">Logout</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+    <!-- SIDEBAR -->
+
+    <!-- CONTENT -->
+    <section id="content">
+      <!-- NAVBAR -->
+      <nav>
+        <i class="bx bx-menu"></i>
+        {% if user.is_authenticated %}
+        <a href="#" class="profile">
+          <i class="bx bxs-user-circle"></i>
+          {{ user.username }}
+        </a>
+        {% endif %}
+      </nav>
+      <!-- NAVBAR -->
+
+      <!-- MAIN -->
+      {% block content %}
+      <main>
+        {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+        <div class="head-title">
+          <div class="left">
+            <h1>Dashboard</h1>
+            <ul class="breadcrumb">
+              <li>
+                <a href="#">Dashboard</a>
+              </li>
+              <li><i class="bx bx-chevron-right"></i></li>
+              <li>
+                <a class="active" href="#">Home</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <ul class="box-info">
+          <li>
+            <i class="bx bxs-category"></i>
+            <span class="text">
+              <h3>{{ total_categories }}</h3>
+              <p>Event Categories</p>
+            </span>
+          </li>
+          <li>
+            <i class="bx bxs-calendar-event"></i>
+            <span class="text">
+              <h3>{{ total_events }}</h3>
+              <p>Events</p>
+            </span>
+          </li>
+          <li>
+            <i class="bx bxs-group"></i>
+            <span class="text">
+              <h3>{{ total_organizers }}</h3>
+              <p>Event Organizers</p>
+            </span>
+          </li>
+          <li>
+            <i class="bx bxs-check-square"></i>
+            <span class="text">
+              <h3>{{ total_completed_events }}</h3>
+              <p>Completed Events</p>
+            </span>
+          </li>
+        </ul>
+
+        <div class="table-data">
+          <div class="events">
+            <div class="head">
+              <h3>Events</h3>
+              <input type="text" id="search-input" placeholder="Search..." />
+              <select id="filter-select">
+                <option value="">All</option>
+                <option value="department">Department Events</option>
+                <option value="college">College Events</option>
+                <option value="workshops">Workshops</option>
+              </select>
+              <button id="clear-filter">Clear Filter</button>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Event Organizer</th>
+                  <th>Event Category</th>
+                  <th>Location</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for event in latest_events %}
+                <tr>
+                  <td>{{ event.name }}</td>
+                  <td>{{ event.description }}</td>
+                  <td>{{ event.event_category.name }}</td>
+                  <td>{{ event.organizer }}</td>
+                  <td>{{ event.location }}</td>
+                  <td>{{ event.date_time }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+      {% endblock %}
+      <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {% block extra_js %}
+    <script src="{% static 'js/admin_dashboard.js' %}"></script>
+    {% endblock %}
+  </body>
+</html>

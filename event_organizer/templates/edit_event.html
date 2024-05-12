@@ -1,0 +1,24 @@
+s {% extends "create_base.html" %} {% load static%}{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/edit_event.css' %}" />
+{% endblock %}{% block content %}
+<div class="edit-event">
+  <h3>Edit Event</h3>
+  <form
+    id="edit-event-form"
+    method="post"
+    enctype="multipart/form-data"
+    action="{% url 'admin_panel:edit_event' event.id %}"
+  >
+    {% csrf_token %} {% for field in form %}
+    <div class="form-group">
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+      {{ field }}
+    </div>
+    {% endfor %}
+
+    <button type="submit" id="submit-btn">Update</button>
+  </form>
+</div>
+{% endblock %} {% block extra_js %}
+<script src="{% static 'js/admin_dashboard.js' %}"></script>
+{% endblock %}
