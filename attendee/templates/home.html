@@ -31,16 +31,41 @@
           <span><i class="ri-menu-line"></i></span>
         </div>
       </div>
-      <ul class="nav__links" id="nav-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Create Event</a></li>
-        <li><a href="#">Events</a></li>
-        <li><a href="#">Contact Us</a></li>
+      <ul class="nav__links">
+        <li>
+          <a
+            href="{% url 'attendee:home' %}"
+            class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+            >Home</a
+          >
+        </li>
+        <li>
+          <a
+            href="{% url 'attendee:create_event_organizer' %}"
+            class="{% if request.resolver_match.url_name == 'create_event_organizer' %}active{% endif %}"
+            >Create Event</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            class="{% if request.resolver_match.url_name == 'events' %}active{% endif %}"
+            >Events</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            class="{% if request.resolver_match.url_name == 'contact_us' %}active{% endif %}"
+            >Contact Us</a
+          >
+        </li>
       </ul>
       <div class="nav__btns">
-        <button class="btn">Sign Up</button>
+        <button class="btn">Sign Up/Login</button>
       </div>
     </nav>
+    {% block content %}
     <section class="event-discovery-section">
       <div class="event-discovery-content">
         <h2>Discover Exciting Events Near You</h2>
@@ -59,5 +84,6 @@
         </div>
       </div>
     </section>
+    {% endblock %}
   </body>
 </html>
