@@ -18,7 +18,7 @@
     />
     <!-- My CSS -->
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/edit_base.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/edit_organizer.css' %}" />
   </head>
   <body>
     <!-- SIDEBAR -->
@@ -92,7 +92,7 @@
 
       <!-- MAIN -->
       <main>
-        <div class="edit_base">
+        <div class="edit_organizer">
           <h3>Edit Event Organizers</h3>
           <form
             id="edit-base-form"
@@ -115,7 +115,6 @@
     </section>
     <!-- CONTENT -->
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     {% block extra_js %}
     <script src="{% static 'js/admin_dashboard.js' %}"></script>
     {% endblock %}
