@@ -7,11 +7,13 @@ class EventForm(forms.ModelForm):
 
     class Meta:
         model = Event
-        fields = ['name', 'description', 'event_category', 'location', 'date_time', 'image', 'attendees']
+        fields = ['name', 'description', 'event_category', 'location', 'date_time', 'image','ticket_type', 'ticket_price', 'attendees']
+
 class EditEventForm(forms.ModelForm):
+    attendees = forms.ModelMultipleChoiceField(queryset=CustomUser.objects.all(), required=False)
     class Meta:
         model = Event
-        fields = ['name', 'description', 'event_category', 'location', 'date_time', 'image']
+        fields = ['name', 'description', 'event_category', 'location', 'date_time', 'image','ticket_type', 'ticket_price','attendees']
         widgets = {
             'date_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         }

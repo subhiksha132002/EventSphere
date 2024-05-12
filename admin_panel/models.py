@@ -13,6 +13,12 @@ class EventCategory(models.Model):
         return self.name
 
 class Event(models.Model):
+    TICKET_TYPE_CHOICES = [
+        ('VIP', 'VIP Ticket'),
+        ('General', 'General Admission'),
+        ('Student', 'Student Ticket')
+    ]
+
     name = models.CharField(max_length=255)
     description = models.TextField()
     event_category = models.ForeignKey(EventCategory, on_delete=models.CASCADE)
@@ -21,6 +27,8 @@ class Event(models.Model):
     image = models.ImageField(upload_to='event_images/', blank=True, null=True)
     organizer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     attendees = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='attended_events')
+    ticket_type = models.CharField(max_length=100, choices=TICKET_TYPE_CHOICES,default='General')
+    ticket_price = models.DecimalField(max_digits=10, decimal_places=2,default=0.00)
 
     def __str__(self):
         return self.name

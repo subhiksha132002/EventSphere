@@ -75,7 +75,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'admin_panel/templates'),
-            os.path.join(BASE_DIR, 'event_organizer/templates')
+            os.path.join(BASE_DIR, 'event_organizer/templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {

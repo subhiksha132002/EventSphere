@@ -1,0 +1,62 @@
+{% extends 'organizer_base.html' %} {% load static %} {% block content %}
+<main>
+  <div class="table-data">
+    <div class="events">
+      <div class="head">
+        <h3>Events</h3>
+        <a
+          href="{% url 'event_organizer:create_event' %}"
+          class="btn-create-event"
+        >
+          <i class="bx bxs-plus-circle"></i> Create Event</a
+        >
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Event Organizer</th>
+            <th>Event Category</th>
+            <th>Location</th>
+            <th>Date</th>
+            <th>Ticket Type</th>
+            <th>Ticket Price</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for event in all_events %}
+          <tr>
+            <td>{{ event.name }}</td>
+            <td>{{ event.description }}</td>
+            <td>{{ event.organizer }}</td>
+            <td>{{ event.event_category }}</td>
+            <td>{{ event.location }}</td>
+            <td>{{ event.date_time }}</td>
+            <td>{{ event.ticket_type }}</td>
+            <td>{{ event.ticket_price }}</td>
+            <td>
+              <a
+                href="{% url 'event_organizer:edit_event' event.id %}"
+                class="action-btn"
+                title="Edit"
+              >
+                <i class="bx bx-edit"></i>
+              </a>
+              <a
+                href="{% url 'event_organizer:event_delete' event.id %}"
+                class="action-btn"
+                title="Delete"
+              >
+                <i class="bx bx-trash"></i>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+{% endblock %}

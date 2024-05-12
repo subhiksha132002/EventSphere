@@ -3,13 +3,6 @@
   <h3>Create Event</h3>
 
   <!-- Display messages -->
-  {% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-  </ul>
-  {% endif %}
 
   <form
     id="create-event-form"
@@ -58,6 +51,31 @@
         <input type="file" id="image" name="image" accept="image/*" />
       </div>
     </div>
+    <div class="form-group">
+      <label for="ticket_type">Ticket Type:</label>
+      <div class="input-field">
+        <select id="ticket_type" name="ticket_type" required>
+          <option value="General">General</option>
+          <option value="VIP">VIP</option>
+          <option value="Student">Student Ticket</option>
+          <!-- Add more options as needed -->
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="ticket_price">Ticket Price:</label>
+      <div class="input-field">
+        <input
+          type="number"
+          id="ticket_price"
+          name="ticket_price"
+          step="0.01"
+          required
+        />
+      </div>
+    </div>
+
     <!-- Add attendees field -->
     <div class="form-group">
       <label for="attendees">Attendees:</label>

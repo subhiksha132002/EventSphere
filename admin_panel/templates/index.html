@@ -20,8 +20,7 @@
     <!-- My CSS -->
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
-    {% block extra_css %}
-{% endblock %}
+    {% block extra_css %} {% endblock %}
   </head>
   <body>
     <!-- SIDEBAR -->
@@ -96,14 +95,6 @@
       <!-- MAIN -->
       {% block content %}
       <main>
-        {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-
         <div class="head-title">
           <div class="left">
             <h1>Dashboard</h1>
@@ -171,6 +162,8 @@
                   <th>Event Category</th>
                   <th>Location</th>
                   <th>Date</th>
+                  <th>Ticket Type</th>
+                  <th>Ticket Price</th>
                 </tr>
               </thead>
               <tbody>
@@ -182,6 +175,8 @@
                   <td>{{ event.organizer }}</td>
                   <td>{{ event.location }}</td>
                   <td>{{ event.date_time }}</td>
+                  <td>{{ event.ticket_type }}</td>
+                  <td>₹{{ event.ticket_price }}</td>
                 </tr>
                 {% endfor %}
               </tbody>
