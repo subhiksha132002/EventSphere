@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin_panel/', include('admin_panel.urls')),
     path('accounts/', include('accounts.urls')),
     path('event_organizer/', include('event_organizer.urls')),
+    path('eventsphere/', include('attendee.urls')),
     path("__debug__/", include("debug_toolbar.urls")),
 ]
 

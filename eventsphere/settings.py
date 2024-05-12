@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'admin_panel',
     'accounts',
     'event_organizer',
+    'attendee',
     'debug_toolbar',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -76,6 +77,7 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(BASE_DIR, 'admin_panel/templates'),
             os.path.join(BASE_DIR, 'event_organizer/templates'),
+            os.path.join(BASE_DIR, 'attendee/templates')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -145,7 +147,8 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'admin_panel/static'),
-    os.path.join(BASE_DIR, 'event_organizer/static')
+    os.path.join(BASE_DIR, 'event_organizer/static'),
+    os.path.join(BASE_DIR, 'attendee/static')
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR,'static')

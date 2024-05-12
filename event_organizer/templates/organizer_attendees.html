@@ -100,7 +100,7 @@
               <tbody>
                 {% for attendee in all_attendees %}
                 <tr>
-                  <td>{{ attendee.attendee.username }}</td>
+                  <td>{{ attendee.attendee.first_name }}</td>
                   <td>{{ attendee.attendee.email }}</td>
                   <td>{{ attendee.attendee.phone_number }}</td>
                   <td>{{ attendee.event.name }}</td>

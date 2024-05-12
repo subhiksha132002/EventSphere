@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% load static %}
+    <link
+      href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+    <title>EventSphere</title>
+  </head>
+  <body>
+    <nav>
+      <div class="nav__header">
+        <div class="nav_logo">
+          <a href="#" class="brand">
+            <i class="fa-solid fa-calendar-days"></i>
+            <span class="text">EventSphere</span>
+          </a>
+        </div>
+        <div class="nav__menu__btn" id="menu-btn">
+          <span><i class="ri-menu-line"></i></span>
+        </div>
+      </div>
+      <ul class="nav__links" id="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Create Event</a></li>
+        <li><a href="#">Events</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+      <div class="nav__btns">
+        <button class="btn">Sign Up</button>
+      </div>
+    </nav>
+    <section class="event-discovery-section">
+      <div class="event-discovery-content">
+        <h2>Discover Exciting Events Near You</h2>
+        <h1>Explore EventSphere for Your Next Adventure</h1>
+        <p>
+          EventSphere is your gateway to discovering and participating in a wide
+          range of exciting events happening in and around the College of
+          Engineering, Guindy (CEG). Whether you're passionate about music,
+          arts, technology, or any other interest, EventSphere has something for
+          everyone. Join us today and explore the vibrant world of events! Join
+          us today and explore the vibrant world of events!
+        </p>
+        <div class="event-discovery-buttons">
+          <a href="#" class="explore-btn">Become an Event Organizer</a>
+          <a href="#" class="explore-btn">Explore Events</a>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

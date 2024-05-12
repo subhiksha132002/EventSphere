@@ -1,5 +1,4 @@
 from django.urls import path
-
 from . import views
 
 def is_event_organizer(user):
