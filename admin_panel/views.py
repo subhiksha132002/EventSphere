@@ -8,10 +8,13 @@ from .forms import EventForm,EditEventForm,EventCategoryForm,EditCategoryForm,Us
 from django.utils import timezone
 from django.contrib import messages
 from django.urls import reverse
-from django.http import JsonResponse,HttpResponseRedirect
+from django.http import JsonResponse
 from django.contrib.auth import get_user_model
 from django.views.generic import View
+from .decorators import admin_required
 
+
+@admin_required
 # Views for Admin Dashboard
 def dashboard_view(request):
     # Retrieve data for the dashboard
@@ -32,34 +35,41 @@ def dashboard_view(request):
     }
     return render(request, 'index.html',context)
 
+@admin_required
 # Function to retrieve event page
 def events_view(request):
     all_events = Event.objects.all()
     return render(request, 'events.html', {'active_page': 'events', 'all_events': all_events})
 
+@admin_required
 def create_event(request):
     event_categories = EventCategory.objects.all()  # Retrieve all event categories
     attendees = CustomUser.objects.all()  # Retrieve all attendees
+    
     if request.method == 'POST':
         form = EventForm(request.POST, request.FILES)
-        event = form.save(commit=False)
-        event.organizer = request.user
-        event.save()
-        form.save_m2m()
+        if form.is_valid():
+            event = form.save(commit=False)
+            event.organizer = request.user  # Assign the authenticated user as the organizer
+            event.save()
+            form.save_m2m()
             
             # Handle attendees field
-        attendee_ids = request.POST.getlist('attendees')
-        event.attendees.set(attendee_ids)
+            attendee_ids = request.POST.getlist('attendees')
+            event.attendees.set(attendee_ids)
+            
+            return redirect('admin_panel:events')  # Redirect to event detail page
     else:
         form = EventForm()
 
     return render(request, 'create_event.html', {
         'form': form,
         'event_categories': event_categories,
-        'attendees': attendees,  # Pass the attendees to the template context
-        'active_page': 'events'  # Set the active_page context variable to 'events'
+        'attendees': attendees,
+        'active_page': 'events'
     })
 
+@admin_required
 def edit_event_view(request, event_id):
     # Retrieve existing event
     event = get_object_or_404(Event, id=event_id)
@@ -78,17 +88,19 @@ def edit_event_view(request, event_id):
     context = {'form': form, 'event': event, 'active_page': 'events'}
     return render(request, 'edit_event.html', context)
 
+@admin_required
 def delete_event(request, event_id):
     event = get_object_or_404(Event, id=event_id)
     event.delete()
     return redirect('admin_panel:events')  # Redirect to the events page after deletion
 
-
+@admin_required
 # Function to retrieve event category page
 def event_categories_view(request):
     all_categories = EventCategory.objects.all()
     return render(request, 'event_categories.html', {'active_page': 'event_categories', 'all_categories': all_categories})
 
+@admin_required
 def create_category(request):
     if request.method == 'POST':
         form = EventCategoryForm(request.POST)
@@ -100,6 +112,7 @@ def create_category(request):
     active_page = 'event_categories'
     return render(request, 'create_category.html', {'form': form, 'active_page': active_page})
 
+@admin_required
 def edit_category(request, category_id):
     category = get_object_or_404(EventCategory, id=category_id)
     if request.method == 'POST':
@@ -112,13 +125,14 @@ def edit_category(request, category_id):
     active_page = 'event_categories'
     return render(request, 'edit_category.html', {'form': form, 'category': category, 'active_page': active_page})
 
-    
+@admin_required   
 def delete_category(request, category_id):
     category = get_object_or_404(EventCategory, id=category_id)
     category.delete()
     # Redirect to a success page or another appropriate URL
     return redirect('admin_panel:event_categories')
 
+@admin_required
 # Function to retrieve user page
 def users_view(request):
     # Retrieve all CustomUser objects along with related data
@@ -130,7 +144,7 @@ def users_view(request):
     }
     
     return render(request, 'attendees.html', context)
-
+@admin_required
 def create_user(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
@@ -160,6 +174,7 @@ def create_user(request):
     }
     return render(request, 'create_attendee.html', context)
 
+@admin_required
 def edit_user(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
 
@@ -183,12 +198,15 @@ def edit_user(request, user_id):
     }
     return render(request, 'edit_user.html', context)
 
+@admin_required
 def delete_user(request, user_id):
     user = get_object_or_404(User, id=user_id)
     user.delete()
     return redirect('admin_panel:users')
 
+@admin_required
 def event_organizers_view(request):
+    active_page = None
     organizers_with_events = {}  # Initialize an empty dictionary to store organizers and their events
     organizers = EventOrganizer.objects.all()
     for organizer in organizers:
@@ -206,6 +224,7 @@ from django.http import JsonResponse
 
 User = get_user_model()
 
+@admin_required
 def create_organizer(request):
     if request.method == 'POST':
         form = EventOrganizerForm(request.POST)
@@ -232,7 +251,8 @@ def create_organizer(request):
         form = EventOrganizerForm()
         active_page = 'event_organizers'
         return render(request, 'create_organizer.html', {'form': form, 'active_page': active_page})
-            
+
+@admin_required           
 def edit_organizer(request, organizer_id):
     organizer = get_object_or_404(EventOrganizer, id=organizer_id)
 
@@ -254,7 +274,7 @@ def edit_organizer(request, organizer_id):
     }
     return render(request, 'edit_organizer.html', context)
 
-
+@admin_required
 def delete_organizer(request, organizer_id):
     organizer = get_object_or_404(EventOrganizer, id=organizer_id)
     organizer.delete()

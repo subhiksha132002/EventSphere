@@ -1,29 +1,44 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.contrib.auth import login as auth_login, authenticate
+from django.contrib.auth import authenticate, login
+from .models import CustomUser
 
 def registration_view(request):
-    login_form = AuthenticationForm()
-    signup_form = UserCreationForm()
-
     if request.method == 'POST':
-        if 'login' in request.POST:
-            login_form = AuthenticationForm(request, request.POST)
-            if login_form.is_valid():
-                user = login_form.get_user()
-                auth_login(request, user)
-                return redirect('home')  # Redirect to the home page after successful login
-        elif 'signup' in request.POST:
-            signup_form = UserCreationForm(request.POST)
-            if signup_form.is_valid():
-                username = signup_form.cleaned_data.get('username')
-                password = signup_form.cleaned_data.get('password1')
-                email = signup_form.cleaned_data.get('email')
-                user = signup_form.save()
-                user.email = email  # Update email
-                user.save()
-                user = authenticate(username=username, password=password)
-                auth_login(request, user)
-                return redirect('home')  # Redirect to the home page after successful signup
+        if 'signup' in request.POST:
+            # Handle user registration
+            username = request.POST.get('username')
+            email = request.POST.get('email')
+            password = request.POST.get('password')
+            confirm_password = request.POST.get('confirm_password')
 
-    return render(request, 'registration.html', {'login_form': login_form, 'signup_form': signup_form})
+            if password == confirm_password:
+                try:
+                    user = CustomUser.objects.create_user(username=username, email=email, password=password)
+                    user.user_type = 'attendee'  # Set the default user type to 'attendee'
+                    user.save()
+                    # Redirect to the login page after successful signup
+                    return redirect('login')
+                except Exception as e:
+                    error_message = str(e)
+                    return render(request, 'registration.html', {'error_message': error_message})
+            else:
+                error_message = "Passwords do not match"
+                return render(request,'registration.html', {'error_message': error_message})
+        else:
+            # Handle user login
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                # Check user type and redirect to the appropriate dashboard
+                if user.user_type == 'admin':
+                    return redirect('admin_panel:dashboard')
+                elif user.user_type == 'organizer':
+                    return redirect('event_organizer:dashboard')
+                else:
+                    return redirect('attendee:home')
+            else:
+                error_message = "Invalid login credentials"
+                return render(request, 'registration.html', {'error_message': error_message})
+    return render(request, 'registration.html')

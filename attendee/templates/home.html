@@ -1,89 +1,105 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    {% load static %}
-    <link
-      href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
-    <title>EventSphere</title>
-  </head>
-  <body>
-    <nav>
-      <div class="nav__header">
-        <div class="nav_logo">
-          <a href="#" class="brand">
-            <i class="fa-solid fa-calendar-days"></i>
-            <span class="text">EventSphere</span>
-          </a>
-        </div>
-        <div class="nav__menu__btn" id="menu-btn">
-          <span><i class="ri-menu-line"></i></span>
+{% extends 'user_base.html' %}{% block content %}
+<section class="event-discovery-section">
+  <div class="event-discovery-content">
+    <h2>Discover Exciting Events Near You</h2>
+    <h1>Explore EventSphere for Your Next Adventure</h1>
+    <p>
+      EventSphere is your gateway to discovering and participating in a wide
+      range of exciting events happening in and around the College of
+      Engineering, Guindy (CEG). Whether you're passionate about music, arts,
+      technology, or any other interest, EventSphere has something for everyone.
+      Join us today and explore the vibrant world of events!
+    </p>
+    <div class="event-discovery-buttons">
+      <a href="#" class="explore-btn">Become an Event Organizer</a>
+      <a href="#" class="explore-btn">Explore Events</a>
+    </div>
+  </div>
+</section>
+<section class="latest-events-section">
+  <div class="container">
+    <h2 class="mb-4 text-center">Latest Events</h2>
+    <!-- Added text-center class -->
+    <div class="row">
+      {% for event in latest_events %}
+      <div class="col-md-3 mb-4">
+        <div class="card">
+          <img
+            src="{{ event.image.url }}"
+            class="card-img-top"
+            alt="{{ event.name }}"
+          />
+          <div class="card-body text-center">
+            <!-- Added text-center class -->
+            <h5 class="card-title mb-3">{{ event.name }}</h5>
+            <a href="#" class="btn btn-primary">View Details</a>
+          </div>
         </div>
       </div>
-      <ul class="nav__links">
-        <li>
-          <a
-            href="{% url 'attendee:home' %}"
-            class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"
-            >Home</a
-          >
-        </li>
-        <li>
-          <a
-            href="{% url 'attendee:create_event_organizer' %}"
-            class="{% if request.resolver_match.url_name == 'create_event_organizer' %}active{% endif %}"
-            >Create Event</a
-          >
-        </li>
-        <li>
-          <a
-            href="#"
-            class="{% if request.resolver_match.url_name == 'events' %}active{% endif %}"
-            >Events</a
-          >
-        </li>
-        <li>
-          <a
-            href="#"
-            class="{% if request.resolver_match.url_name == 'contact_us' %}active{% endif %}"
-            >Contact Us</a
-          >
-        </li>
-      </ul>
-      <div class="nav__btns">
-        <button class="btn">Sign Up/Login</button>
-      </div>
-    </nav>
-    {% block content %}
-    <section class="event-discovery-section">
-      <div class="event-discovery-content">
-        <h2>Discover Exciting Events Near You</h2>
-        <h1>Explore EventSphere for Your Next Adventure</h1>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="wow fadeInUp col-md-4 col-sm-4" data-wow-delay="0.6s">
+        <h2>About EventSphere</h2>
         <p>
-          EventSphere is your gateway to discovering and participating in a wide
-          range of exciting events happening in and around the College of
-          Engineering, Guindy (CEG). Whether you're passionate about music,
-          arts, technology, or any other interest, EventSphere has something for
-          everyone. Join us today and explore the vibrant world of events! Join
-          us today and explore the vibrant world of events!
+          EventSphere: Where Moments Meet Passion. Discover and Engage with
+          Vibrant Events Near You!
         </p>
-        <div class="event-discovery-buttons">
-          <a href="#" class="explore-btn">Become an Event Organizer</a>
-          <a href="#" class="explore-btn">Explore Events</a>
-        </div>
       </div>
-    </section>
-    {% endblock %}
-  </body>
-</html>
+      <div class="wow fadeInUp col-md-4 col-sm-4" data-wow-delay="0.9s">
+        <h2>Quick Links</h2>
+        <ul>
+          <li><a href="#">Events</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="wow fadeInUp col-md-4 col-sm-4" data-wow-delay="1s">
+        <h2>Follow us</h2>
+        <ul class="social-icon">
+          <li>
+            <a href="#" class="fab fa-facebook" data-wow-delay="1s"></a>
+          </li>
+          <li>
+            <a
+              href="#"
+              class="fa fa-twitter wow fadeInUp"
+              data-wow-delay="1.3s"
+            ></a>
+          </li>
+          <li>
+            <a
+              href="#"
+              class="fa fa-dribbble wow fadeIn"
+              data-wow-delay="1.6s"
+            ></a>
+          </li>
+          <li>
+            <a
+              href="#"
+              class="fa fa-behance wow fadeInUp"
+              data-wow-delay="1.9s"
+            ></a>
+          </li>
+          <li>
+            <a
+              href="#"
+              class="fa fa-google-plus wow fadeIn"
+              data-wow-delay="2s"
+            ></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-md-12 col-sm-12">
+      <p class="copyright-text">Copyright &copy; 2023 EventSphere</p>
+    </div>
+  </div>
+</footer>
+
+{% endblock %}

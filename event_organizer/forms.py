@@ -1,5 +1,5 @@
 from django import forms
-from .models import Event
+from admin_panel.models import Event
 from accounts.models import CustomUser
 
 class EventForm(forms.ModelForm):

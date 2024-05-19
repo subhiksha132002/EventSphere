@@ -24,7 +24,7 @@ class Event(models.Model):
     event_category = models.ForeignKey(EventCategory, on_delete=models.CASCADE)
     location = models.CharField(max_length=255)
     date_time = models.DateTimeField()
-    image = models.ImageField(upload_to='event_images/', blank=True, null=True)
+    image = models.ImageField(upload_to='event_images/', blank=False, null=True)
     organizer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     attendees = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='attended_events')
     ticket_type = models.CharField(max_length=100, choices=TICKET_TYPE_CHOICES,default='General')

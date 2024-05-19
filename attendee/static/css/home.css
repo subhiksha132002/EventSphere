@@ -98,20 +98,33 @@ nav {
   transform: translateY(-100%);
 }
 
-.nav__links.open {
-  transform: translateY(0);
-}
-
 .nav__links a {
-  font-weight: 500;
-  color: var(--white);
-  transition: 0.3s;
+  position: relative;
+  padding-block: 5px;
+  color: var(--text-light);
+  border-bottom: 2px solid transparent; /* Initial state with transparent border */
+  transition: border-color 0.3s;
+  text-decoration: none; /* Ensure no text-decoration is applied */
 }
 
-.nav__links a:hover {
-  color: #3c91e6;
+.nav__links a:hover,
+.nav__links a.active {
+  border-bottom-color: #3c91e6; /* Your desired hover color */
 }
 
+/* Ensure no additional underline from text-decoration property */
+.nav__links a,
+.nav__links a:visited,
+.nav__links a:focus,
+.nav__links a:active {
+  text-decoration: none;
+}
+
+/* Remove any potential ::before or ::after content causing extra underlines */
+.nav__links a::before,
+.nav__links a::after {
+  content: none;
+}
 .nav__btns {
   display: none;
 }
@@ -161,7 +174,7 @@ nav {
   color: #fff;
   background-color: #3c91e6;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
@@ -338,4 +351,120 @@ button[type="submit"]:hover {
     color: #f9f9f9;
     background-color: #2c7bbf;
   }
+}
+.latest-events-section {
+  padding: 2rem 0;
+  background-color: #f9f9f9;
+  margin-bottom: 10px;
+}
+
+.latest-events-section h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  font-family: "Nunito", sans-serif; /* Add the font-family style */
+  font-weight: bold; /* Optional: Adjust the font-weight if needed */
+  color: #342e37;
+}
+
+.latest-events-section .card {
+  transition: transform 0.3s ease-in-out;
+}
+
+.latest-events-section .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.latest-events-section .card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #342e37;
+}
+
+.latest-events-section .btn-primary {
+  background-color: #3c91e6;
+  border-color: #3c91e6;
+}
+
+.latest-events-section .btn-primary:hover {
+  background-color: #2c7bbf;
+  border-color: #2c7bbf;
+}
+
+footer {
+  background-color: #26253a; /* Add the desired background color */
+  color: #ffffff;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+}
+footer .container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+footer .row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+footer .col-md-4,
+footer .col-sm-4 {
+  flex: 1;
+  padding: 0 15px;
+  margin-bottom: 2rem;
+}
+
+footer .col-md-4:nth-child(2) {
+  padding-left: 50px;
+}
+
+footer h4 {
+  margin-top: 0px;
+}
+
+footer .copyright-text {
+  padding-top: 2rem;
+  text-align: center;
+}
+
+footer .copyright-text a {
+  color: #707070;
+  transition: all 0.4s ease-in-out;
+}
+
+footer .copyright-text a:hover {
+  color: #ffffff;
+}
+
+/*---------------------------------------
+   Social icon             
+-----------------------------------------*/
+.social-icon {
+  position: relative;
+  padding: 0;
+  margin: 0;
+}
+
+.social-icon li {
+  display: inline-block;
+  list-style: none;
+}
+
+.social-icon li a {
+  color: #999;
+  border-radius: 100px;
+  font-size: 16px;
+  text-decoration: none;
+  transition: all 0.4s ease-in-out;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.social-icon li a:hover {
+  background: #ffffff;
 }

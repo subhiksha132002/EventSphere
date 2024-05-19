@@ -1,13 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from admin_panel.models import Event
 from django.core.mail import send_mail
+from django.utils import timezone
 from .forms import EventOrganizerForm
+from admin_panel.models import EventCategory
 
 def home(request):
-    # Assuming you have a model named Event with fields: name, description, location, date_time
-    # Querying the latest events
-    latest_events = Event.objects.all().order_by('-date_time')[:3]  # Assuming you want to display the latest 3 events
-
+    latest_events = Event.objects.filter(date_time__gte=timezone.now()).order_by('-date_time')[:4]
     context = {
         'latest_events': latest_events,
     }
@@ -38,3 +37,25 @@ def event_organizer_form(request):
     else:
         form = EventOrganizerForm()
     return render(request, 'create_event_organizer.html', {'form': form})
+
+def events_list(request):
+    events = Event.objects.all().order_by('-date_time')
+    categories = EventCategory.objects.all()
+
+    category = request.GET.get('category')
+    if category:
+        events = events.filter(event_category__name__icontains=category)
+
+    context = {
+        'events': events,
+        'categories': categories,
+    }
+    return render(request, 'events_list.html', context)
+
+def event_details(request, event_id):
+    event = get_object_or_404(Event, pk=event_id)
+    context = {
+        'event': event
+    }
+    return render(request, 'event_details.html', context)
+

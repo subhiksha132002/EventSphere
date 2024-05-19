@@ -1,0 +1,33 @@
+{% extends 'user_base.html' %} {% load static %} {% block content %}
+<div class="event-section">
+  <div class="search-bar">
+    <form method="GET" action="{% url 'events_list' %}">
+      <input
+        type="text"
+        name="category"
+        placeholder="Search by category"
+        value="{{ request.GET.category }}"
+      />
+      <button type="submit">Search</button>
+    </form>
+  </div>
+
+  <div class="event-list">
+    {% for event in events %}
+    <div class="event-card">
+      <a href="{% url 'event_details' event.id %}">
+        {% if event.image %}
+        <img src="{{ event.image.url }}" alt="{{ event.name }}" />
+        {% else %}
+        <img
+          src="{% static 'images/default_event_image.jpg' %}"
+          alt="Default Event Image"
+        />
+        {% endif %}
+        <h3>{{ event.name }}</h3>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

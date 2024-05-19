@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Event, Attendee
+from admin_panel.models import Event
+from .models import  Attendee
 from django.utils import timezone
 from .forms import EventForm,EditEventForm
 from admin_panel.models import EventCategory

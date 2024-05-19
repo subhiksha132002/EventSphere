@@ -15,3 +15,11 @@ signupLink.onclick = () => {
   signupBtn.click();
   return false;
 };
+
+function toggleForgotPassword() {
+  var forgotPasswordContainer = document.querySelector(
+    ".forgot-password-container"
+  );
+  forgotPasswordContainer.style.display =
+    forgotPasswordContainer.style.display === "none" ? "block" : "none";
+}
