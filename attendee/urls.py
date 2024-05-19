@@ -6,5 +6,5 @@ app_name = 'attendee'
 urlpatterns = [
     path('home/', views.home, name='home'),
     path('create_event_organizer/', views.event_organizer_form, name='create_event_organizer'),
-
+    path('events/', views.events_list, name='events_list'),
     ]

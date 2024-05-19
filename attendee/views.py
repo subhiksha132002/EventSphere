@@ -39,17 +39,13 @@ def event_organizer_form(request):
     return render(request, 'create_event_organizer.html', {'form': form})
 
 def events_list(request):
-    events = Event.objects.all().order_by('-date_time')
-    categories = EventCategory.objects.all()
-
-    category = request.GET.get('category')
-    if category:
-        events = events.filter(event_category__name__icontains=category)
-
+    # Retrieve all events from the database
+    all_events = Event.objects.all()
+    
     context = {
-        'events': events,
-        'categories': categories,
+        'all_events': all_events,
     }
+    
     return render(request, 'events_list.html', context)
 
 def event_details(request, event_id):
