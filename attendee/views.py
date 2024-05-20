@@ -76,7 +76,6 @@ def event_detail(request, event_id):
     }
     return render(request, 'event_detail.html', context)
 
-
 def generate_pdf(request):
     # Retrieve form data from request
     name = request.POST.get('name')
@@ -87,16 +86,6 @@ def generate_pdf(request):
     event_price = request.POST.get('event_price')
     total_price = request.POST.get('total_price')
     quantity = request.POST.get('quantity')
-
-    # Log the retrieved form fields for debugging
-    print(f"Name: {name}")
-    print(f"Gender: {gender}")
-    print(f"Phone Number: {phone_number}")
-    print(f"User Role: {user_role}")
-    print(f"Event Name: {event_name}")
-    print(f"Event Price: {event_price}")
-    print(f"Total Price: {total_price}")
-    print(f"Quantity: {quantity}")
 
     # Error checking for form fields
     if not name or not gender or not phone_number or not user_role or not event_name or not event_price or not total_price or not quantity:
@@ -122,37 +111,71 @@ def generate_pdf(request):
     # Generate PDF document
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="registration_details.pdf"'
-    
+
     # Create PDF content
     buffer = BytesIO()
     p = canvas.Canvas(buffer, pagesize=letter)
 
+    # Add border
+    border_padding = 20
+    border_width = letter[0] - 2 * border_padding
+    border_height = letter[1] - 2 * border_padding
+    p.setStrokeColor(colors.black)
+    p.rect(border_padding, border_padding, border_width, border_height)
+
     # Add form details to PDF
-    y_position = 750
-    p.drawString(100, y_position, f"Name: {name}")
+    left_margin = 50
+    y_position = letter[1] - 50  # Start from the top
+    p.drawString(left_margin, y_position, f"Name: {name}")
     y_position -= 20
-    p.drawString(100, y_position, f"Gender: {gender}")
+    p.drawString(left_margin, y_position, f"Gender: {gender}")
     y_position -= 20
-    p.drawString(100, y_position, f"Phone Number: {phone_number}")
+    p.drawString(left_margin, y_position, f"Phone Number: {phone_number}")
     y_position -= 20
-    p.drawString(100, y_position, f"User Role: {user_role}")
+    p.drawString(left_margin, y_position, f"User Role: {user_role}")
     y_position -= 20
-    p.drawString(100, y_position, f"Event Name: {event_name}")
+    p.drawString(left_margin, y_position, f"Event Name: {event_name}")
     y_position -= 20
-    p.drawString(100, y_position, f"Event Price: {event_price}")
+    p.drawString(left_margin, y_position, f"Event Price: {event_price}")
     y_position -= 20
-    p.drawString(100, y_position, f"Total Price: {total_price}")
+    p.drawString(left_margin, y_position, f"Total Price: {total_price}")
+
+    # Add space between details and QR codes
+    y_position -= 40
+
+    qr_code_width = 100
+    qr_code_height = 100
+    right_margin = letter[0] - 50 - qr_code_width
+    qr_code_x_position = right_margin 
+    qr_code_y_position = letter[1] - 50 - qr_code_height 
+
+
+    # Adjust the spacing between QR codes based on their number
+    qr_code_spacing = (letter[1] - 100) / quantity if quantity > 1 else 0
+
+    # Adjust the vertical spacing to ensure QR codes fit within the page
+    if qr_code_y_position - (qr_code_height * quantity) - (qr_code_spacing * (quantity - 1)) < 50:
+        qr_code_y_position = letter[1] - 50 - qr_code_height
+
 
     # Add QR codes to PDF
-    y_position -= 40  # Add some space before the QR codes
-    for qr_code in qr_codes:
+    qr_code_index = 0
+    while qr_code_index < len(qr_codes):
+        if qr_code_y_position - qr_code_height < 50:  # Check if enough space for another QR code
+            p.showPage()  # Start a new page
+            p.setStrokeColor(colors.black)
+            p.rect(border_padding, border_padding, border_width, border_height)  # Add border
+            qr_code_y_position = letter[1] - 50 - qr_code_height  # Reset vertical position
+
+        qr_code = qr_codes[qr_code_index]
         qr_code.seek(0)
         pil_image = Image.open(qr_code)
         qr_code_image = BytesIO()
         pil_image.save(qr_code_image, format='PNG')
         qr_code_image.seek(0)
-        p.drawInlineImage(Image.open(qr_code_image), 100, y_position, width=100, height=100)
-        y_position -= 120  # Adjust the spacing between QR codes
+        p.drawInlineImage(Image.open(qr_code_image), qr_code_x_position, qr_code_y_position, width=qr_code_width, height=qr_code_height)
+        qr_code_y_position -= qr_code_height + 20  # Adjust the vertical position for the next QR code
+        qr_code_index += 1
 
     p.save()
 
