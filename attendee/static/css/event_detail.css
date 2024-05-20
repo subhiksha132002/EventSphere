@@ -331,6 +331,11 @@ nav {
   text-align: center;
 }
 
+.centered-btn {
+  display: block;
+  margin: 0 auto;
+}
+
 .register-btn {
   display: block;
   margin: 20px auto 30px;
