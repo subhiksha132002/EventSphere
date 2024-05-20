@@ -1,9 +1,11 @@
-from django.shortcuts import render,get_object_or_404
-from admin_panel.models import Event
+from django.shortcuts import render,get_object_or_404,redirect
+from admin_panel.models import Event,EventCategory
 from django.core.mail import send_mail
 from django.utils import timezone
 from .forms import EventOrganizerForm
-from admin_panel.models import EventCategory
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, authenticate
+
 
 def home(request):
     latest_events = Event.objects.filter(date_time__gte=timezone.now()).order_by('-date_time')[:4]
@@ -39,19 +41,28 @@ def event_organizer_form(request):
     return render(request, 'create_event_organizer.html', {'form': form})
 
 def events_list(request):
-    # Retrieve all events from the database
-    all_events = Event.objects.all()
-    
+    all_events = Event.objects.all()  
+    categories = EventCategory.objects.all()
     context = {
         'all_events': all_events,
+        'categories': categories,
     }
-    
     return render(request, 'events_list.html', context)
 
-def event_details(request, event_id):
-    event = get_object_or_404(Event, pk=event_id)
-    context = {
-        'event': event
-    }
-    return render(request, 'event_details.html', context)
+def event_detail(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+    return render(request, 'event_detail.html', {'event': event})
 
+def registration_view(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('attendee:events_list')  # Redirect to events list page after successful registration
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration.html', {'form': form})

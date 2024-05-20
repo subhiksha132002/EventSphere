@@ -16,7 +16,6 @@ class Event(models.Model):
     TICKET_TYPE_CHOICES = [
         ('VIP', 'VIP Ticket'),
         ('General', 'General Admission'),
-        ('Student', 'Student Ticket')
     ]
 
     name = models.CharField(max_length=255)

@@ -1,3 +1,4 @@
+/* General styles and variables */
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap");
 
@@ -44,89 +45,105 @@ body {
 }
 
 nav {
-  position: fixed;
-  isolation: isolate;
-  width: 100%;
-  z-index: 9;
+  color: #101010;
+  padding: 10px 0;
 }
 
 .nav__header {
-  padding: 1rem;
-  width: 100%;
+  max-width: var(--max-width);
+  margin: auto;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  background-color: var(--text-dark);
+  align-items: center;
+  padding: 0 20px;
 }
 
 .brand {
-  font-size: 24px;
-  font-weight: 700;
-  height: 56px;
   display: flex;
   align-items: center;
-  color: var(--blue);
 }
 
-.brand .fa-solid {
-  min-width: 60px;
-  display: flex;
-  justify-content: center;
-}
-
-.nav__menu__btn {
-  font-size: 1.5rem;
-  color: var(--white);
-  cursor: pointer;
-}
-
-.nav__links {
-  position: absolute;
-  top: 64px;
-  left: 0;
-  width: 100%;
-  padding: 2rem;
-  list-style: none;
+.brand a {
   display: flex;
   align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 2rem;
-  background-color: var(--text-dark);
-  transition: 0.5s;
-  z-index: -1;
-  transform: translateY(-100%);
+  text-decoration: none;
+  color: #3c91e6; /* Set the color for both icon and text */
+}
+
+.brand a i {
+  color: inherit; /* Inherit the color from the parent anchor */
+}
+
+.brand a span {
+  margin-left: 5px; /* Adjust the spacing between the icon and text */
+}
+
+.nav__links ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.nav__links ul li {
+  margin-right: 20px;
+}
+
+.nav__links ul li:last-child {
+  margin-right: 0;
 }
 
 .nav__links a {
-  position: relative;
-  padding-block: 5px;
-  color: var(--text-light);
-  border-bottom: 2px solid transparent; /* Initial state with transparent border */
-  transition: border-color 0.3s;
-  text-decoration: none; /* Ensure no text-decoration is applied */
-}
-
-.nav__links a:hover,
-.nav__links a.active {
-  border-bottom-color: #3c91e6; /* Your desired hover color */
-}
-
-/* Ensure no additional underline from text-decoration property */
-.nav__links a,
-.nav__links a:visited,
-.nav__links a:focus,
-.nav__links a:active {
+  color: #fff;
   text-decoration: none;
+  transition: color 0.3s ease-in-out;
 }
 
-/* Remove any potential ::before or ::after content causing extra underlines */
-.nav__links a::before,
-.nav__links a::after {
-  content: none;
+.nav__links a:hover {
+  color: #ccc;
 }
+
 .nav__btns {
-  display: none;
+  display: flex;
+}
+
+.nav__btns .btn {
+  margin-left: 20px;
+  color: #fff;
+  background-color: #3c91e6;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.nav__btns .btn:hover {
+  background-color: #2c7bbf;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+}
+
+.user-profile .username-text {
+  margin-left: 10px;
+}
+
+.btn-signup-login {
+  background-color: #3c91e6;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-signup-login:hover {
+  background-color: #2c7bbf;
 }
 
 .event-discovery-section {
@@ -352,6 +369,8 @@ button[type="submit"]:hover {
     background-color: #2c7bbf;
   }
 }
+
+/* Latest Events Section */
 .latest-events-section {
   padding: 2rem 0;
   background-color: #f9f9f9;
@@ -361,12 +380,13 @@ button[type="submit"]:hover {
 .latest-events-section h2 {
   font-size: 2rem;
   margin-bottom: 2rem;
-  font-family: "Nunito", sans-serif; /* Add the font-family style */
-  font-weight: bold; /* Optional: Adjust the font-weight if needed */
+  font-family: "Nunito", sans-serif;
+  font-weight: bold;
   color: #342e37;
 }
 
 .latest-events-section .card {
+  border-radius: 10px;
   transition: transform 0.3s ease-in-out;
 }
 
@@ -391,12 +411,95 @@ button[type="submit"]:hover {
   border-color: #2c7bbf;
 }
 
-footer {
-  background-color: #26253a; /* Add the desired background color */
-  color: #ffffff;
-  padding-top: 8rem;
-  padding-bottom: 8rem;
+.latest-events-section img {
+  border-radius: 10px 10px 0 0;
 }
+
+/* Events Section */
+.events-section .card {
+  border-radius: 10px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.events-section .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.events-section .card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #342e37;
+}
+
+.events-section .btn-primary {
+  background-color: #3c91e6;
+  border-color: #3c91e6;
+}
+
+.events-section .btn-primary:hover {
+  background-color: #2c7bbf;
+  border-color: #2c7bbf;
+}
+
+.events-section img {
+  border-radius: 10px 10px 0 0;
+}
+
+/* Footer */
+footer {
+  background-color: #26253a;
+  color: #ffffff;
+  padding-top: 10px;
+  padding-bottom: 5px;
+}
+
+footer h2 {
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 2rem;
+}
+
+footer .col-md-4 {
+  margin-top: 20px;
+}
+
+footer .col-md-4 ul {
+  text-align: center;
+  margin-top: 20px;
+}
+
+footer .col-md-4 ul li {
+  margin-right: 10px;
+}
+
+footer .col-md-4 ul li a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+}
+
+footer .col-md-4 ul li a:hover {
+  color: #5e5858;
+}
+
+/* Center items under "Follow us" */
+footer .social-icon {
+  text-align: center;
+  margin-top: 20px;
+}
+
+footer ul {
+  padding-left: 0;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+}
+
+footer ul li {
+  margin-right: 10px;
+}
+
 footer .container {
   display: flex;
   flex-wrap: wrap;
