@@ -67,15 +67,24 @@ nav {
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: #3c91e6; /* Set the color for both icon and text */
+  color: #3c91e6;
 }
 
 .brand a i {
-  color: inherit; /* Inherit the color from the parent anchor */
+  color: inherit;
+  font-size: 24px;
+  margin-right: 5px;
+}
+.nav__links {
+  flex: 5;
+  display: flex;
+  justify-content: center;
 }
 
 .brand a span {
-  margin-left: 5px; /* Adjust the spacing between the icon and text */
+  font-weight: bold;
+  font-size: 20px;
+  margin-left: 5px;
 }
 
 .nav__links ul {
@@ -86,21 +95,27 @@ nav {
 }
 
 .nav__links ul li {
-  margin-right: 20px;
+  margin-right: 30px;
+}
+
+.nav__links ul li a {
+  color: #000;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.nav__links ul li a:hover {
+  color: #3c91e6;
+  cursor: pointer;
+}
+
+.nav__links ul li a.active {
+  color: #3c91e6;
+  border-bottom: 2px solid #3c91e6;
 }
 
 .nav__links ul li:last-child {
   margin-right: 0;
-}
-
-.nav__links a {
-  color: #fff;
-  text-decoration: none;
-  transition: color 0.3s ease-in-out;
-}
-
-.nav__links a:hover {
-  color: #ccc;
 }
 
 .nav__btns {
@@ -123,6 +138,7 @@ nav {
 }
 
 .user-profile {
+  margin-left: auto;
   display: flex;
   align-items: center;
 }

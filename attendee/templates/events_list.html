@@ -35,10 +35,10 @@
         </div>
         <div class="nav__links">
           <ul>
-            <li><a href="#" class="active">Home</a></li>
-            <li><a href="#">Create Event</a></li>
-            <li><a href="#">Events</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="{% url 'attendee:home' %}"  {% if active_link == 'home' %}class="active"{% endif %}>Home</a></li>
+            <li><a href="{% url 'attendee:create_event_organizer' %}"  {% if active_link == 'create_events' %}class="active"{% endif %}>Create Event</a></li>
+            <li><a href="{% url 'attendee:events_list' %}"  {% if active_link == 'events' %}class="active"{% endif %}>Events</a></li>
+            <li><a href="#" {% if request.path == '/contact/' %}class="active"{% endif %}>Contact Us</a></li>
           </ul>
         </div>
         <div class="nav__btns">

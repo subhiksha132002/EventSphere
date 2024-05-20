@@ -45,92 +45,95 @@ body {
 }
 
 nav {
-  position: fixed;
-  isolation: isolate;
-  width: 100%;
-  z-index: 9;
+  color: #101010;
+  padding: 10px 0;
 }
 
 .nav__header {
-  padding: 1rem;
-  width: 100%;
+  max-width: var(--max-width);
+  margin: auto;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  background-color: var(--text-dark);
+  align-items: center;
+  padding: 0 20px;
 }
 
 .brand {
-  font-size: 24px;
-  font-weight: 700;
-  height: 56px;
   display: flex;
   align-items: center;
-  color: var(--blue);
 }
 
-.brand .fa-solid {
-  min-width: 60px;
+.brand a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #3c91e6;
+}
+
+.brand a i {
+  color: inherit;
+  font-size: 24px;
+  margin-right: 5px;
+}
+.nav__links {
+  flex: 5;
   display: flex;
   justify-content: center;
 }
 
-.nav__menu__btn {
-  font-size: 1.5rem;
-  color: var(--white);
+.brand a span {
+  font-weight: bold;
+  font-size: 20px;
+  margin-left: 5px;
+}
+
+.nav__links ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.nav__links ul li {
+  margin-right: 30px;
+}
+
+.nav__links ul li a {
+  color: #000;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.nav__links ul li a:hover {
+  color: #3c91e6;
   cursor: pointer;
 }
 
-.nav__links {
-  position: absolute;
-  top: 64px;
-  left: 0;
-  width: 100%;
-  padding: 2rem;
-  list-style: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 2rem;
-  background-color: var(--text-dark);
-  transition: 0.5s;
-  z-index: -1;
-  transform: translateY(-100%);
+.nav__links ul li:last-child {
+  margin-right: 0;
 }
 
-.nav__links a {
-  position: relative;
-  padding-block: 5px;
-  color: var(--text-light);
-  border-bottom: 2px solid transparent; /* Initial state with transparent border */
-  transition: border-color 0.3s;
-  text-decoration: none; /* Ensure no text-decoration is applied */
-}
-
-.nav__links a:hover,
-.nav__links a.active {
-  border-bottom-color: #3c91e6; /* Your desired hover color */
-}
-
-/* Ensure no additional underline from text-decoration property */
-.nav__links a,
-.nav__links a:visited,
-.nav__links a:focus,
-.nav__links a:active {
-  text-decoration: none;
-}
-
-/* Remove any potential ::before or ::after content causing extra underlines */
-.nav__links a::before,
-.nav__links a::after {
-  content: none;
-}
 .nav__btns {
-  display: none;
+  display: flex;
+}
+
+.nav__btns .btn {
+  margin-left: 20px;
+  color: #fff;
+  background-color: #3c91e6;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.nav__btns .btn:hover {
+  background-color: #2c7bbf;
 }
 
 .user-profile {
+  margin-left: auto;
   display: flex;
   align-items: center;
 }
@@ -139,6 +142,20 @@ nav {
   margin-left: 10px;
 }
 
+.btn-signup-login {
+  background-color: #3c91e6;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-signup-login:hover {
+  background-color: #2c7bbf;
+}
 @media (width > 768px) {
   nav {
     position: static;

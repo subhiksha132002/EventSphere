@@ -11,8 +11,12 @@
       Join us today and explore the vibrant world of events!
     </p>
     <div class="event-discovery-buttons">
-      <a href="#" class="explore-btn">Become an Event Organizer</a>
-      <a href="#" class="explore-btn">Explore Events</a>
+      <a href="{% url 'attendee:create_event_organizer' %}" class="explore-btn"
+        >Become an Event Organizer</a
+      >
+      <a href="{% url 'attendee:events_list' %}" class="explore-btn"
+        >Explore Events</a
+      >
     </div>
   </div>
 </section>

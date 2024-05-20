@@ -9,8 +9,10 @@ from django.contrib.auth import login, authenticate
 
 def home(request):
     latest_events = Event.objects.filter(date_time__gte=timezone.now()).order_by('-date_time')[:4]
+    active_link = 'home'
     context = {
         'latest_events': latest_events,
+        'active_link': active_link,
     }
     return render(request, 'home.html', context)
 
@@ -43,15 +45,23 @@ def event_organizer_form(request):
 def events_list(request):
     all_events = Event.objects.all()  
     categories = EventCategory.objects.all()
+    active_link = 'events'
     context = {
         'all_events': all_events,
         'categories': categories,
+        'active_link': active_link,
     }
     return render(request, 'events_list.html', context)
 
 def event_detail(request, event_id):
     event = get_object_or_404(Event, id=event_id)
-    return render(request, 'event_detail.html', {'event': event})
+    active_link = 'events'
+
+    context = {
+        'event': event,
+        'active_link': active_link,
+    }
+    return render(request, 'event_detail.html', context)
 
 def registration_view(request):
     if request.method == 'POST':
@@ -62,7 +72,7 @@ def registration_view(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('attendee:events_list')  # Redirect to events list page after successful registration
+            return redirect('attendee:events_list') 
     else:
         form = UserCreationForm()
     return render(request, 'registration.html', {'form': form})
