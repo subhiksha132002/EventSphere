@@ -11,13 +11,3 @@ class Ticket(models.Model):
 
     def __str__(self):
         return f"Ticket {self.id} - {self.ticket_type}"
-
-class Attendee(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='attendee_user')
-    event = models.ForeignKey(AdminPanelEvent, on_delete=models.CASCADE)
-    phone_number = models.CharField(max_length=15)
-    # Remove the 'name' field
-    tickets = models.ManyToManyField(Ticket, related_name='attendees')
-
-    def __str__(self):
-        return f"{self.user.first_name} - {self.event.name}"

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Event Tickets</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .ticket {
+        border: 1px solid #000;
+        margin-bottom: 20px;
+        padding: 20px;
+      }
+      .qr-code {
+        width: 100px;
+        height: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Event Tickets</h1>
+    <p>Name: {{ name }}</p>
+    <p>Gender: {{ gender }}</p>
+    <p>Phone Number: {{ phone_number }}</p>
+    <p>User Role: {{ user_role }}</p>
+    <p>Event Name: {{ event_name }}</p>
+    <p>Event Price: ₹{{ event_price }}</p>
+    <p>Total Price: ₹{{ total_price }}</p>
+    <h2>Tickets</h2>
+    {% for ticket in tickets %}
+    <div class="ticket">
+      <p>Ticket ID: {{ ticket.id }}</p>
+      <p>Ticket Type: {{ ticket.ticket_type }}</p>
+      <p>Ticket Price: ₹{{ ticket.ticket_price }}</p>
+      <img src="{{ ticket.qr_code.url }}" alt="QR Code" class="qr-code" />
+    </div>
+    {% endfor %}
+  </body>
+</html>

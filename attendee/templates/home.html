@@ -36,7 +36,11 @@
           <div class="card-body text-center">
             <!-- Added text-center class -->
             <h5 class="card-title mb-3">{{ event.name }}</h5>
-            <a href="#" class="btn btn-primary">View Details</a>
+            <a
+              href="{% url 'attendee:event_details' event.id %}"
+              class="btn btn-primary"
+              >View Details</a
+            >
           </div>
         </div>
       </div>
