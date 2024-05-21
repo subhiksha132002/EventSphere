@@ -1,8 +1,6 @@
-/* Importing fonts */
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap");
 
-/* General reset */
 * {
   margin: 0;
   padding: 0;
@@ -17,7 +15,6 @@ li {
   list-style: none;
 }
 
-/* Root variables */
 :root {
   --poppins: "Poppins", sans-serif;
   --lato: "Lato", sans-serif;
@@ -51,7 +48,6 @@ body.dark {
 body {
   background: var(--grey);
   overflow-x: hidden;
-  font-family: var(--nunito);
 }
 
 /* SIDEBAR */
@@ -68,15 +64,12 @@ body {
   overflow-x: hidden;
   scrollbar-width: none;
 }
-
 #sidebar::--webkit-scrollbar {
   display: none;
 }
-
 #sidebar.hide {
   width: 60px;
 }
-
 #sidebar .brand {
   font-size: 24px;
   font-weight: 700;
@@ -92,18 +85,15 @@ body {
   padding-bottom: 20px;
   box-sizing: content-box;
 }
-
 #sidebar .brand .fa-solid {
   min-width: 60px;
   display: flex;
   justify-content: center;
 }
-
 #sidebar .side-menu {
   width: 100%;
   margin-top: 48px;
 }
-
 #sidebar .side-menu li {
   height: 48px;
   background: transparent;
@@ -111,12 +101,10 @@ body {
   border-radius: 48px 0 0 48px;
   padding: 4px;
 }
-
 #sidebar .side-menu li.active {
   background: var(--grey);
   position: relative;
 }
-
 #sidebar .side-menu li.active::before {
   content: "";
   position: absolute;
@@ -128,7 +116,6 @@ body {
   box-shadow: 20px 20px 0 var(--grey);
   z-index: -1;
 }
-
 #sidebar .side-menu li.active::after {
   content: "";
   position: absolute;
@@ -140,7 +127,6 @@ body {
   box-shadow: 20px -20px 0 var(--grey);
   z-index: -1;
 }
-
 #sidebar .side-menu li a {
   width: 100%;
   height: 100%;
@@ -153,7 +139,6 @@ body {
   white-space: nowrap;
   overflow-x: hidden;
 }
-
 #sidebar .side-menu.top li.active a {
   color: var(--blue);
 }
@@ -162,15 +147,12 @@ body {
   width: calc(48px - (4px * 2));
   transition: width 0.3s ease;
 }
-
 #sidebar .side-menu li a.logout {
   color: var(--red);
 }
-
 #sidebar .side-menu.top li a:hover {
   color: var(--blue);
 }
-
 #sidebar .side-menu li a .bx {
   min-width: calc(60px - ((4px + 6px) * 2));
   display: flex;
@@ -186,7 +168,6 @@ body {
   left: 280px;
   transition: 0.3s ease;
 }
-
 #sidebar.hide ~ #content {
   width: calc(100% - 60px);
   left: 60px;
@@ -207,7 +188,6 @@ body {
   left: 0;
   z-index: 1000;
 }
-
 #content nav::before {
   content: "";
   position: absolute;
@@ -218,15 +198,12 @@ body {
   border-radius: 50%;
   box-shadow: -20px -20px 0 var(--light);
 }
-
 #content nav a {
   color: var(--dark);
 }
-
 #content nav .bx {
   font-size: 25px; /* Adjust the value as needed */
 }
-
 #content nav .bx.bx-menu {
   cursor: pointer;
   color: var(--dark);
@@ -246,17 +223,13 @@ body {
 
 /* MAIN */
 
-#content main .edit_user {
+#content main .create-event {
   width: 100%;
   margin: 0 auto;
-  padding: 20px;
-  background: var(--light);
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  font-family: var(--nunito);
+  text-align: center;
 }
 
-.edit_user h3 {
+.create-event h3 {
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -270,9 +243,10 @@ button[type="submit"] {
   cursor: pointer; /* Cursor style */
   font-size: 16px; /* Font size */
   transition: background-color 0.3s ease; /* Smooth transition for background color */
-  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
+/* Hover state for the button */
 button[type="submit"]:hover {
   background-color: #0056b3; /* Darker blue background color */
 }
@@ -280,37 +254,36 @@ button[type="submit"]:hover {
 .form-group {
   display: flex;
   align-items: center;
+  align-items: flex-start;
   margin-bottom: 20px;
 }
 
 .form-group label {
-  flex-basis: 75%; /* Adjusted label width to fit new form width */
-  margin-right: 10px;
-  font-size: 16px;
+  flex-basis: 30%;
+  margin-right: 10px; /* Adjust the right margin to add space */
+  margin-left: 10px; /* Add left margin for space from the left */
+  font-size: 18px;
 }
 
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="password"],
+.form-group .input-field {
+  flex-grow: 1;
+}
+
+.form-group input,
 .form-group textarea,
 .form-group select {
-  flex-basis: 75%; /* Adjusted input width to fit new form width */
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
+  width: 100%; /* Input fields occupy full width */
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #ccc; /* Add border with a light gray color */
 }
 
-.form-group input[type="text"]:focus,
-.form-group input[type="email"]:focus,
-.form-group input[type="password"]:focus,
-.form-group textarea:focus,
-.form-group select:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+.form-group .input-field {
+  flex-grow: 0; /* Change flex-grow to 0 to restrict width expansion */
+  width: 50%; /* Set a specific width for the input fields, adjust as needed */
 }
 
+/* Search input */
 #search-input,
 #filter-select {
   padding: 8px;
@@ -320,6 +293,7 @@ button[type="submit"]:hover {
   margin-right: 10px;
 }
 
+/* Clear filter button */
 #clear-filter {
   padding: 8px 12px;
   background-color: #3c91e6;
@@ -331,4 +305,35 @@ button[type="submit"]:hover {
 
 #clear-filter:hover {
   background-color: #3c91e6;
+}
+
+/* MAIN */
+/* CONTENT */
+
+@media screen and (max-width: 768px) {
+  #sidebar {
+    width: 200px;
+  }
+
+  #content {
+    width: calc(100% - 60px);
+    left: 200px;
+  }
+
+  #content nav .nav-link {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  #content main .box-info {
+    grid-template-columns: 1fr;
+  }
+
+  #content main .table-data .head {
+    min-width: 420px;
+  }
+  #content main .table-data .events table {
+    min-width: 420px;
+  }
 }

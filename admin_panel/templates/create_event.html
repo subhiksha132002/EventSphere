@@ -1,9 +1,6 @@
 {% extends "create_base.html" %} {% load static %} {% block content %}
 <div class="create-event">
   <h3>Create Event</h3>
-
-  <!-- Display messages -->
-
   <form
     id="create-event-form"
     method="post"
@@ -73,18 +70,6 @@
           step="0.01"
           required
         />
-      </div>
-    </div>
-
-    <!-- Add attendees field -->
-    <div class="form-group">
-      <label for="attendees">Attendees:</label>
-      <div class="input-field">
-        <select id="attendees" name="attendees" multiple>
-          {% for attendee in attendees %}
-          <option value="{{ attendee.id }}">{{ attendee.username }}</option>
-          {% endfor %}
-        </select>
       </div>
     </div>
     <button type="submit" id="submit-btn">Create</button>

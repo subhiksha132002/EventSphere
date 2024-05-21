@@ -18,7 +18,7 @@
     />
     <!-- My CSS -->
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/edit_base.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/edit_event_base.css' %}" />
     {% block extra_css %}{% endblock %}
   </head>
   <body>
@@ -30,21 +30,33 @@
       </a>
       <ul class="side-menu top">
         <li class="{% if active_page == 'dashboard' %}active{% endif %}">
-          <a href="{% url 'event_organizer:dashboard' %}">
+          <a href="{% url 'admin_panel:dashboard' %}">
             <i class="bx bxs-dashboard"></i>
             <span class="text">Dashboard</span>
           </a>
         </li>
         <li class="{% if active_page == 'events' %}active{% endif %}">
-          <a href="{% url 'event_organizer:organizer_events' %}">
+          <a href="{% url 'admin_panel:events' %}">
             <i class="bx bxs-calendar-event"></i>
             <span class="text">Events</span>
           </a>
         </li>
-        <li class="{% if active_page == 'attendees' %}active{% endif %}">
-          <a href="{% url 'event_organizer:attendees' %}">
+        <li class="{% if active_page == 'event_categories' %}active{% endif %}">
+          <a href="{% url 'admin_panel:event_categories' %}">
             <i class="bx bxs-category"></i>
-            <span class="text">Attendees</span>
+            <span class="text">Event Categories</span>
+          </a>
+        </li>
+        <li class="{% if active_page == 'users' %}active{% endif %}">
+          <a href="{% url 'admin_panel:users' %}">
+            <i class="bx bxs-user"></i>
+            <span class="text">Users</span>
+          </a>
+        </li>
+        <li class="{% if active_page == 'event_organizers' %}active{% endif %}">
+          <a href="{% url 'admin_panel:event_organizers' %}">
+            <i class="bx bxs-group"></i>
+            <span class="text">Event Organizers</span>
           </a>
         </li>
       </ul>
@@ -52,7 +64,7 @@
         <li>
           <a href="#">
             <i class="bx bxs-cog"></i>
-            <span class="text">Profile</span>
+            <span class="text">Settings</span>
           </a>
         </li>
         <li>
@@ -85,8 +97,9 @@
     </section>
     <!-- CONTENT -->
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     {% block extra_js %}
-    <script src="{% static 'js/organizer_dashboard.js' %}"></script>
+    <script src="{% static 'js/admin_dashboard.js' %}"></script>
     {% endblock %}
   </body>
 </html>

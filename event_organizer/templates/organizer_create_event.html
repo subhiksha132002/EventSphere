@@ -74,18 +74,6 @@
         />
       </div>
     </div>
-
-    <!-- Add attendees field -->
-    <div class="form-group">
-      <label for="attendees">Attendees:</label>
-      <div class="input-field">
-        <select id="attendees" name="attendees" multiple>
-          {% for attendee in attendees %}
-          <option value="{{ attendee.id }}">{{ attendee.username }}</option>
-          {% endfor %}
-        </select>
-      </div>
-    </div>
     <button type="submit" id="submit-btn">Create</button>
   </form>
 </div>

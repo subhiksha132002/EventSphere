@@ -1,5 +1,4 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
 from .models import Event,EventCategory,CustomUser,EventOrganizer
 
 class EventForm(forms.ModelForm):
@@ -33,7 +32,7 @@ class EditCategoryForm(forms.ModelForm):
 
 class UserForm(forms.ModelForm):
     events_attending = forms.ModelMultipleChoiceField(
-        queryset=Event.objects.none(),  # Set an empty queryset initially
+        queryset=Event.objects.none(),  
         widget=forms.SelectMultiple(attrs={'class': 'form-control'}),
         required=False
     )

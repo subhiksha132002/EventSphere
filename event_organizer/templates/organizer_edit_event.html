@@ -2,12 +2,12 @@
 <link rel="stylesheet" href="{% static 'css/edit_event.css' %}" />
 {% endblock %}{% block content %}
 <div class="edit-event">
-  <h3>Edit Event</h3>
+  <h3>Edit User</h3>
   <form
     id="edit-event-form"
     method="post"
     enctype="multipart/form-data"
-    action="{% url 'event_organizer:edit_event' event.id %}"
+    action="{% url 'admin_panel:edit_user' user.id %}"
   >
     {% csrf_token %} {% for field in form %}
     <div class="form-group">
@@ -20,5 +20,5 @@
   </form>
 </div>
 {% endblock %} {% block extra_js %}
-<script src="{% static 'js/organizer_dashboard.js' %}"></script>
+<script src="{% static 'js/admin_dashboard.js' %}"></script>
 {% endblock %}
