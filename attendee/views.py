@@ -7,7 +7,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
 from django.http import HttpResponse
 from django.views import View
-from django.conf import settings
 from .models import Ticket
 from admin_panel.models import Event as AdminPanelEvent
 import qrcode
@@ -16,7 +15,7 @@ from reportlab.pdfgen import canvas
 from io import BytesIO
 from PIL import Image 
 from reportlab.lib import colors
-from reportlab.lib.pagesizes import A4
+from event_organizer.models import Attendee
 
 
 
@@ -76,8 +75,13 @@ def event_detail(request, event_id):
     }
     return render(request, 'event_detail.html', context)
 
-def generate_pdf(request):
+def generate_pdf(request, event_id):
     # Retrieve form data from request
+    try:
+        event_id = int(event_id)
+    except ValueError:
+        return HttpResponse("Invalid event ID", status=400)
+
     name = request.POST.get('name')
     gender = request.POST.get('gender')
     phone_number = request.POST.get('phone_number')
@@ -97,6 +101,32 @@ def generate_pdf(request):
         quantity = int(quantity)
     except ValueError:
         return HttpResponse("Invalid form field values", status=400)
+
+    # Retrieve the corresponding event
+    event = get_object_or_404(AdminPanelEvent, id=event_id)
+
+    # Save attendee information to the database
+    for _ in range(quantity):
+        ticket = Ticket.objects.create(
+            event=event,
+            attendee=request.user,
+            ticket_type=event.ticket_type,
+            ticket_price=event.ticket_price
+        )
+
+    # Update or create Attendee record
+    attendee, created = Attendee.objects.update_or_create(
+        attendee=request.user,
+        event=event,
+        defaults={'phone_number': phone_number, 'name': name}
+    )
+    if created:
+        attendee.status = 'not_attended'  # Set initial status
+        attendee.save()
+    else:  # Update name and phone number if attendee already exists
+        attendee.name = name
+        attendee.phone_number = phone_number
+        attendee.save()
 
     # Generate QR Codes for each attendee
     qr_codes = []

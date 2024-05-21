@@ -36,13 +36,13 @@
           </a>
         </li>
         <li class="{% if active_page == 'events' %}active{% endif %}">
-          <a href="{% url 'event_organizer:events' %}">
+          <a href="{% url 'event_organizer:organizer_events' %}">
             <i class="bx bxs-calendar-event"></i>
             <span class="text">Events</span>
           </a>
         </li>
         <li class="{% if active_page == 'attendees' %}active{% endif %}">
-          <a href="#">
+          <a href="{% url 'event_organizer:attendees' %}">
             <i class="bx bxs-category"></i>
             <span class="text">Attendees</span>
           </a>
@@ -100,9 +100,9 @@
               <tbody>
                 {% for attendee in all_attendees %}
                 <tr>
-                  <td>{{ attendee.attendee.first_name }}</td>
+                  <td>{{ attendee.name }}</td>
                   <td>{{ attendee.attendee.email }}</td>
-                  <td>{{ attendee.attendee.phone_number }}</td>
+                  <td>{{ attendee.phone_number }}</td>
                   <td>{{ attendee.event.name }}</td>
                   <td>
                     <button

@@ -74,7 +74,7 @@ def edit_event(request, event_id):
 def delete_event(request, event_id):
     event = get_object_or_404(Event, id=event_id)
     event.delete()
-    return redirect('event_organizer:events')  # Redirect to the events page after deletion
+    return redirect('event_organizer:organizer_events')  # Redirect to the events page after deletion
 
 # Function to retrieve attendees
 def attendees_view(request):

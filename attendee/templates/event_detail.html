@@ -91,7 +91,7 @@
             </div>
             <p>Total Price: ₹<span id="total-price">0</span></p> 
           </div>
-          <form id="registration-form" method="post" action="#" onsubmit="event.preventDefault(); showModal();">
+          <form id="registration-form" method="post" action="{% url 'attendee:generate_ticket' event.id %}" onsubmit="event.preventDefault(); showModal();">
             {% csrf_token %}
             <input type="hidden" id="registration_quantity" name="quantity" value="0" />
             <button type="submit" class="btn btn-primary register-btn">
@@ -113,7 +113,7 @@
               </button>
           </div>
           <div class="modal-body">
-              <form id="modal-form" method="post" action="{% url 'attendee:generate_ticket' %}">
+              <form id="modal-form" method="post" action="{% url 'attendee:generate_ticket' event.id %}">
                   {% csrf_token %}
                   <div class="form-group">
                       <label for="name">Name</label>
