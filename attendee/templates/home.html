@@ -1,4 +1,4 @@
-{% extends 'user_base.html' %}{% block content %}
+{% extends 'user_base.html' %} {% block content %}
 <section class="event-discovery-section">
   <div class="event-discovery-content">
     <h2>Discover Exciting Events Near You</h2>
@@ -20,21 +20,20 @@
     </div>
   </div>
 </section>
+
 <section class="latest-events-section">
   <div class="container">
     <h2 class="mb-4 text-center">Latest Events</h2>
-    <!-- Added text-center class -->
     <div class="row">
       {% for event in latest_events %}
       <div class="col-md-3 mb-4">
-        <div class="card">
+        <div class="card event-card">
           <img
             src="{{ event.image.url }}"
             class="card-img-top"
             alt="{{ event.name }}"
           />
           <div class="card-body text-center">
-            <!-- Added text-center class -->
             <h5 class="card-title mb-3">{{ event.name }}</h5>
             <a
               href="{% url 'attendee:event_details' event.id %}"
@@ -87,5 +86,4 @@
     </div>
   </div>
 </footer>
-
 {% endblock %}

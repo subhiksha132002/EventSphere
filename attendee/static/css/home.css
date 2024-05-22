@@ -404,6 +404,9 @@ button[type="submit"]:hover {
 .latest-events-section .card {
   border-radius: 10px;
   transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .latest-events-section .card:hover {
@@ -429,37 +432,17 @@ button[type="submit"]:hover {
 
 .latest-events-section img {
   border-radius: 10px 10px 0 0;
+  height: 200px; /* Set a fixed height for images */
+  object-fit: cover; /* Ensure images maintain their aspect ratio */
 }
 
-/* Events Section */
-.events-section .card {
-  border-radius: 10px;
-  transition: transform 0.3s ease-in-out;
-}
-
-.events-section .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-.events-section .card-title {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #342e37;
-}
-
-.events-section .btn-primary {
-  background-color: #3c91e6;
-  border-color: #3c91e6;
-}
-
-.events-section .btn-primary:hover {
-  background-color: #2c7bbf;
-  border-color: #2c7bbf;
-}
-
-.events-section img {
-  border-radius: 10px 10px 0 0;
+.latest-events-section .card-body {
+  padding: 20px;
+  height: 120px; /* Set a fixed height for the card body */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* Footer */

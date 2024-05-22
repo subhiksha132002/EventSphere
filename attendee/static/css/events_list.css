@@ -280,11 +280,13 @@ nav {
 .events-section .card {
   transition: transform 0.3s ease-in-out;
   border-radius: 15px;
+  overflow: hidden; /* Ensure images do not overflow the card's rounded corners */
 }
 
 .events-section .card img {
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  width: 100%;
+  height: 200px; /* Fixed height for all images */
+  object-fit: cover; /* Ensures the image covers the entire area */
 }
 
 .events-section .card:hover {
